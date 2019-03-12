@@ -324,6 +324,11 @@ class Cache {
 	 * @return array
 	 */
 	private function get_post_types_excluded_from_purge() {
-		return apply_filters( 'spinupwp_post_types_excluded_from_purge', array( 'revision' ) );
+		return apply_filters( 'spinupwp_post_types_excluded_from_purge', array(
+			'attachment',
+			'custom_css',
+			'revision',
+			'user_request'
+		) );
 	}
 }

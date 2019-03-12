@@ -44,6 +44,8 @@ class Cache {
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
 		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );
+		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
+		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
 	}
 
 
@@ -139,6 +141,36 @@ class Cache {
 		}
 
 		return $this->purge_page_cache();
+	}
+
+	/**
+	 * Purge a post on new comment (if approved).
+	 *
+	 * @param int $comment_id
+	 * @param bool $comment_approved
+	 *
+	 * @return bool
+	 */
+	public function purge_post_on_comment( $comment_id, $comment_approved ) {
+		if ( ! $comment_approved ) {
+			return false;
+		}
+
+		return $this->purge_post_by_comment( $comment_id );
+	}
+
+	/**
+	 * Purge a post by comment ID.
+	 *
+	 * @param int $comment_id
+	 *
+	 * @return bool
+	 */
+	public function purge_post_by_comment( $comment_id ) {
+		$comment = get_comment( $comment_id );
+		$post    = get_post( $comment->comment_post_ID );
+
+		return $this->purge_post( $post );
 	}
 
 	/**

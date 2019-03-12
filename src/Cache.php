@@ -42,7 +42,8 @@ class Cache {
 
 		add_action( 'admin_init', [ $this, 'handle_manual_purge_action' ] );
 		add_action( 'transition_post_status', [ $this, 'purge_post_on_status_transition' ], 10, 3 );
-		add_action( 'delete_post', [ $this, 'purge_post_on_delete' ] );
+		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
+		add_action( 'wp_trash_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
 	}
 
 

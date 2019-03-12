@@ -41,9 +41,8 @@ class Cache {
 		}
 
 		add_action( 'admin_init', [ $this, 'handle_manual_purge_action' ] );
-		add_action( 'transition_post_status', [ $this, 'purge_post_on_status_transition' ], 10, 3 );
+		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
-		add_action( 'wp_trash_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
 	}
 
 
@@ -85,11 +84,10 @@ class Cache {
 	}
 
 	/**
-	 * Transition post status.
-	 *
 	 * When a post is transitioned to 'publish' for the first time purge the
-	 * entire site cache. This ensures blog pages, category archives, author archives
-	 * and search results are accurate. Otherwise, only update the current post URL.
+	 * entire site cache. This ensures blog pages, category archives, author archives,
+	 * search results and the 'Latest Posts' footer section is accurate. Otherwise,
+	 * only update the current post URL.
 	 *
 	 * @param string $new_status
 	 * @param string $old_status
@@ -97,40 +95,45 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	public function purge_post_on_status_transition( $new_status, $old_status, $post ) {
-		if ( ! $this->cache_path ) {
+	public function purge_post_on_update( $new_status, $old_status, $post ) {
+		$post_type = get_post_type( $post );
+
+		if ( in_array( $post_type, $this->get_post_types_excluded_from_purge() ) ) {
 			return false;
 		}
 
-		if ( ! in_array( get_post_type( $post ), array( 'post', 'page' ) ) ) {
+		if ( ! $this->should_purge_post_status( $new_status, $old_status ) ) {
 			return false;
 		}
 
-		if ( $new_status !== 'publish' ) {
-			return false;
-		}
-
-		if ( $old_status === 'publish' ) {
+		if ( in_array( $post_type, $this->get_post_types_needing_single_purge() ) ) {
 			return $this->purge_post( $post );
 		}
 
-		return $this->purge_cache();
+		return $this->purge_page_cache();
 	}
 
 	/**
-	 * Ensure the site cache is purged when a post is deleted via wp_delete_post().
-	 * This is especially needed if a site doesn't use the trash, so we won't catch on post status change.
+	 * Purge the entire cache when a post type is deleted.
 	 *
 	 * @param int $post_id
+	 *
+	 * @return bool
 	 */
 	public function purge_post_on_delete( $post_id ) {
-		$default_post_types = $this->get_post_types_needing_single_purge();
-		$post_types         = array_merge( $default_post_types, $this->get_post_types_needing_site_purge() );
-		$post_type          = get_post_type( $post_id );
+		$post_type = get_post_type( $post_id );
 
-		if ( in_array( $post_type, $post_types ) ) {
-			$this->purge_page_cache();
+		if ( in_array( $post_type, $this->get_post_types_excluded_from_purge() ) ) {
+			return false;
 		}
+
+		$post_status = get_post_status( $post_id );
+
+		if ( in_array( $post_status, array( 'auto-draft', 'draft', 'trash' ) ) ) {
+			return false;
+		}
+
+		return $this->purge_page_cache();
 	}
 
 	/**
@@ -278,22 +281,48 @@ class Cache {
 		return false;
 	}
 
-
 	/**
-	 * These post types have single.php pages so we can purge individual posts in the cache on edit.
+	 * Should a post be purged based on the new/old status.
 	 *
-	 * @return array
+	 * @param string $new_status
+	 * @param string $old_status
+	 *
+	 * @return bool
 	 */
-	protected function get_post_types_needing_single_purge() {
-		return apply_filters( 'spinupwp_purge_single_post_types', [ 'post', 'page' ] );
+	private function should_purge_post_status( $new_status, $old_status ) {
+		// A newly created post with no content
+		if ( $new_status === 'auto-draft' ) {
+			return false;
+		}
+
+		// A post in draft status
+		if ( $new_status === 'draft' && in_array( $old_status, array( 'auto-draft', 'draft', 'trash' ) ) ) {
+			return false;
+		}
+
+		// A post in trash status
+		if ( $new_status === 'trash' && in_array( $old_status, array( 'auto-draft', 'draft', 'trash' ) ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
-	 * These post types can have data rendered anywhere in the site so whole cache purges are needed.
+	 * Get post types that should only purge their own public facing URL.
 	 *
 	 * @return array
 	 */
-	protected function get_post_types_needing_site_purge() {
-		return apply_filters( 'spinupwp_purge_site_post_types', [] );
+	private function get_post_types_needing_single_purge() {
+		return apply_filters( 'spinupwp_post_types_needing_single_purge', array() );
+	}
+
+	/**
+	 * Get post types that should never trigger a cache purge.
+	 *
+	 * @return array
+	 */
+	private function get_post_types_excluded_from_purge() {
+		return apply_filters( 'spinupwp_post_types_excluded_from_purge', array( 'revision' ) );
 	}
 }

@@ -107,6 +107,10 @@ class Cache {
 			return false;
 		}
 
+		if ( $post_type === 'customize_changeset' && $new_status === 'trash' ) {
+			return false;
+		}
+
 		if ( in_array( $post_type, $this->get_post_types_needing_single_purge() ) ) {
 			return $this->purge_post( $post );
 		}

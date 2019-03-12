@@ -9,6 +9,11 @@ class Cache {
 	private $plugin;
 
 	/**
+	 * @var string
+	 */
+	private $cache_path;
+
+	/**
 	 * Cache constructor.
 	 *
 	 * @param Plugin $plugin
@@ -21,6 +26,8 @@ class Cache {
 	 * Init
 	 */
 	public function init() {
+		$this->set_cache_path();
+
 		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
 			$this->plugin->add_admin_bar_item( 'Purge All Caches', 'purge-all' );
 		}
@@ -33,7 +40,8 @@ class Cache {
 			$this->plugin->add_admin_bar_item( 'Purge Page Cache', 'purge-page' );
 		}
 
-		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
+		add_action( 'admin_init', [ $this, 'handle_manual_purge_action' ] );
+		add_action( 'transition_post_status', [ $this, 'purge_post_on_status_transition' ], 10, 3 );
 	}
 
 
@@ -75,6 +83,52 @@ class Cache {
 	}
 
 	/**
+	 * Transition post status.
+	 *
+	 * When a post is transitioned to 'publish' for the first time purge the
+	 * entire site cache. This ensures blog pages, category archives, author archives
+	 * and search results are accurate. Otherwise, only update the current post URL.
+	 *
+	 * @param string $new_status
+	 * @param string $old_status
+	 * @param WP_Post $post
+	 *
+	 * @return bool
+	 */
+	public function purge_post_on_status_transition( $new_status, $old_status, $post ) {
+		if ( ! $this->cache_path ) {
+			return false;
+		}
+
+		if ( ! in_array( get_post_type( $post ), array( 'post', 'page' ) ) ) {
+			return false;
+		}
+
+		if ( $new_status !== 'publish' ) {
+			return false;
+		}
+
+		if ( $old_status === 'publish' ) {
+			return $this->purge_post( $post );
+		}
+
+		return $this->purge_cache();
+	}
+
+	/**
+	 * Set the base cache path.
+	 */
+	private function set_cache_path() {
+		if ( getenv( 'SPINUPWP_CACHE_PATH' ) ) {
+			$this->cache_path = getenv( 'SPINUPWP_CACHE_PATH' );
+		}
+
+		if ( defined( 'SPINUPWP_CACHE_PATH' ) ) {
+			$this->cache_path = SPINUPWP_CACHE_PATH;
+		}
+	}
+
+	/**
 	 * Is the object cache enabled?
 	 *
 	 * @return bool
@@ -107,6 +161,102 @@ class Cache {
 	 * @return bool
 	 */
 	private function purge_page_cache() {
-		return true;
+		return $this->delete( $this->cache_path, true );
+	}
+
+	/**
+	 * Purge the current post URL.
+	 *
+	 * @param WP_Post $post
+	 *
+	 * @return bool
+	 */
+	private function purge_post( $post ) {
+		return $this->purge_url( get_permalink( $post ) );
+	}
+
+	/**
+	 * Purge a single URL from the cache.
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	private function purge_url( $url ) {
+		$path = $this->get_cache_path_for_url( $url );
+
+		return $this->delete( $path );
+	}
+
+	/**
+	 * Get's the cache file path for a given URL.
+	 *
+	 * Must be using the default Nginx cache options (levels=1:2)
+	 * and (fastcgi_cache_key "$scheme$request_method$host$request_uri").
+	 * https://www.digitalocean.com/community/tutorials/how-to-setup-fastcgi-caching-with-nginx-on-your-vps#purging-the-cache
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	private function get_cache_path_for_url( $url ) {
+		$parsed_url = parse_url( trailingslashit( $url ) );
+		$cache_key  = md5( $parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path'] );
+		$cache_path = substr( $cache_key, - 1 ) . '/' . substr( $cache_key, - 3, 2 ) . '/' . $cache_key;
+
+		return trailingslashit( $this->cache_path ) . $cache_path;
+	}
+
+	/**
+	 * Delete a file/dir from the local filesystem.
+	 *
+	 * @param string $path Absolute path to file
+	 * @param bool $recursive
+	 *
+	 * @return bool
+	 */
+	private function delete( $path, $recursive = false ) {
+		error_log( $path );
+		if ( file_exists( $path ) && is_writable( $path ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/file.php' );
+
+			$context = $path;
+			if ( is_file( $path ) ) {
+				$context = dirname( $path );
+			}
+
+			if ( ! WP_Filesystem( false, $context, true ) ) {
+				return false;
+			}
+
+			global $wp_filesystem;
+			$wp_filesystem->delete( $path, $recursive );
+
+			return true;
+		}
+
+		return $this->delete_via_cache_daemon( $path );
+	}
+
+	/**
+	 * Use SpinupWP daemon to purge cache.
+	 *
+	 * @param string $path
+	 *
+	 * @return bool
+	 */
+	private function delete_via_cache_daemon( $path ) {
+		$fp = @fsockopen( '127.0.0.1', '7836' );
+
+		if ( $fp ) {
+			fwrite( $fp, $path . "\n" );
+
+			$result = fread( $fp, 512 );
+			fclose( $fp );
+
+			return (bool) preg_match( '/^Purge:\sSuccess/', $result );
+		}
+
+		return false;
 	}
 }

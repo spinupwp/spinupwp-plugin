@@ -4,6 +4,11 @@ namespace DeliciousBrains\SpinupWp;
 
 class Plugin {
 	/**
+	 * @var Cache
+	 */
+	public $cache;
+
+	/**
 	 * @var array
 	 */
 	private $admin_bar_items = [];
@@ -12,8 +17,8 @@ class Plugin {
 	 *
 	 */
 	public function run() {
-		$cache = new Cache( $this );
-		$cache->init();
+		$this->cache = new Cache( $this );
+		$this->cache->init();
 
 		add_action( 'admin_bar_menu', [ $this, 'render_admin_bar' ], 100 );
 	}

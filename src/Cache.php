@@ -42,6 +42,7 @@ class Cache {
 
 		add_action( 'admin_init', [ $this, 'handle_manual_purge_action' ] );
 		add_action( 'transition_post_status', [ $this, 'purge_post_on_status_transition' ], 10, 3 );
+		add_action( 'delete_post', [ $this, 'purge_post_on_delete' ] );
 	}
 
 
@@ -113,6 +114,22 @@ class Cache {
 		}
 
 		return $this->purge_cache();
+	}
+
+	/**
+	 * Ensure the site cache is purged when a post is deleted via wp_delete_post().
+	 * This is especially needed if a site doesn't use the trash, so we won't catch on post status change.
+	 *
+	 * @param int $post_id
+	 */
+	public function purge_post_on_delete( $post_id ) {
+		$default_post_types = $this->get_post_types_needing_single_purge();
+		$post_types         = array_merge( $default_post_types, $this->get_post_types_needing_site_purge() );
+		$post_type          = get_post_type( $post_id );
+
+		if ( in_array( $post_type, $post_types ) ) {
+			$this->purge_page_cache();
+		}
 	}
 
 	/**
@@ -258,5 +275,24 @@ class Cache {
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * These post types have single.php pages so we can purge individual posts in the cache on edit.
+	 *
+	 * @return array
+	 */
+	protected function get_post_types_needing_single_purge() {
+		return apply_filters( 'spinupwp_purge_single_post_types', [ 'post', 'page' ] );
+	}
+
+	/**
+	 * These post types can have data rendered anywhere in the site so whole cache purges are needed.
+	 *
+	 * @return array
+	 */
+	protected function get_post_types_needing_site_purge() {
+		return apply_filters( 'spinupwp_purge_site_post_types', [] );
 	}
 }

@@ -13,6 +13,7 @@ use WP_CLI;
  *     $ wp spinupwp purge-site
  */
 class CacheCommands {
+
 	/**
      * Purge the entire SpinupWP page cache.
      *

@@ -5,10 +5,11 @@ namespace DeliciousBrains\SpinupWp;
 use DeliciousBrains\SpinupWp\Cli\CacheCommands;
 
 class Cache {
+
 	/**
-	 * @var Plugin
+	 * @var AdminBar
 	 */
-	private $plugin;
+	private $admin_bar;
 
 	/**
 	 * @var Cli
@@ -23,11 +24,11 @@ class Cache {
 	/**
 	 * Cache constructor.
 	 *
-	 * @param Plugin $plugin
+	 * @param AdminBar $admin_bar
 	 */
-	public function __construct( Plugin $plugin, Cli $cli ) {
-		$this->plugin = $plugin;
-		$this->cli    = $cli;
+	public function __construct( AdminBar $admin_bar, Cli $cli ) {
+		$this->admin_bar = $admin_bar;
+		$this->cli       = $cli;
 	}
 
 	/**
@@ -37,16 +38,15 @@ class Cache {
 		$this->set_cache_path();
 
 		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
-			$this->plugin->add_admin_bar_item( 'Purge All Caches', 'purge-all' );
+			$this->admin_bar->add_item( 'Purge All Caches', 'purge-all' );
 		}
 
 		if ( $this->is_object_cache_enabled() ) {
-			$this->plugin->add_admin_bar_item( 'Purge Object Cache', 'purge-object' );
+			$this->admin_bar->add_item( 'Purge Object Cache', 'purge-object' );
 		}
 
 		if ( $this->is_page_cache_enabled() ) {
-			$this->plugin->add_admin_bar_item( 'Purge Page Cache', 'purge-page' );
-
+			$this->admin_bar->add_item( 'Purge Page Cache', 'purge-page' );
 			$this->cli->register_command( CacheCommands::class );
 		}
 

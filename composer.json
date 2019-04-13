@@ -13,6 +13,9 @@
     "autoload": {
         "psr-4": {
             "DeliciousBrains\\SpinupWp\\": "src/"
-        }
+        },
+        "files": [
+            "functions.php"
+        ]
     }
 }

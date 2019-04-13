@@ -229,7 +229,7 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	private function purge_post( $post ) {
+	public function purge_post( $post ) {
 		return $this->purge_url( get_permalink( $post ) );
 	}
 
@@ -240,7 +240,7 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	private function purge_url( $url ) {
+	public function purge_url( $url ) {
 		$path = $this->get_cache_path_for_url( $url );
 
 		return $this->delete( $path );

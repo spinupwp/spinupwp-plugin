@@ -32,5 +32,21 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-$spinupwp = new \DeliciousBrains\SpinupWp\Plugin();
-$spinupwp->run();
+/**
+ * The main SpinupWP function.
+ *
+ * @return \DeliciousBrains\SpinupWp\Plugin
+ */
+function spinupwp()
+{
+    if ( isset( $GLOBALS['spinupwp'] ) && $GLOBALS['spinupwp'] instanceof \DeliciousBrains\SpinupWp\Plugin ) {
+        return $GLOBALS['spinupwp'];
+    }
+    
+    $GLOBALS['spinupwp'] = new \DeliciousBrains\SpinupWp\Plugin();
+    $GLOBALS['spinupwp']->run();
+
+    return $GLOBALS['spinupwp'];
+}
+
+spinupwp();

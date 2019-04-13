@@ -11,7 +11,7 @@ class Plugin {
 	/**
 	 * @var array
 	 */
-	private $admin_bar_items = [];
+	private $admin_bar_items = array();
 
 	/**
 	 *
@@ -20,7 +20,7 @@ class Plugin {
 		$this->cache = new Cache( $this );
 		$this->cache->init();
 
-		add_action( 'admin_bar_menu', [ $this, 'render_admin_bar' ], 100 );
+		add_action( 'admin_bar_menu', array( $this, 'render_admin_bar' ), 100 );
 	}
 
 	/**
@@ -30,10 +30,10 @@ class Plugin {
 	 * @param string $action
 	 */
 	public function add_admin_bar_item( $title, $action ) {
-		$this->admin_bar_items[] = [
+		$this->admin_bar_items[] = array(
 			'title'  => $title,
 			'action' => $action,
-		];
+		);
 	}
 
 	/**
@@ -50,18 +50,18 @@ class Plugin {
 			return;
 		}
 
-		$wp_admin_bar->add_node( [
+		$wp_admin_bar->add_node( array(
 			'id'    => 'spinupwp',
 			'title' => 'SpinupWP',
-		] );
+		 ) );
 
 		foreach ( $this->admin_bar_items as $item ) {
-			$wp_admin_bar->add_node( [
+			$wp_admin_bar->add_node( array(
 				'parent' => 'spinupwp',
 				'id'     => strtolower( str_replace( '', '-', $item['title'] ) ),
 				'title'  => $item['title'],
 				'href'   => wp_nonce_url( add_query_arg( 'spinupwp_action', $item['action'], admin_url() ), $item['action'] ),
-			] );
+			 ) );
 		}
 	}
 

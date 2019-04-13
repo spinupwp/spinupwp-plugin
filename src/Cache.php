@@ -40,7 +40,7 @@ class Cache {
 			$this->plugin->add_admin_bar_item( 'Purge Page Cache', 'purge-page' );
 		}
 
-		add_action( 'admin_init', [ $this, 'handle_manual_purge_action' ] );
+		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
 		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );

@@ -219,7 +219,11 @@ class Cache {
 	 * @return bool
 	 */
 	public function purge_page_cache() {
-		return $this->delete( $this->cache_path, true );
+		$result = $this->delete( $this->cache_path, true );
+
+		do_action( 'spinupwp_site_purged', $result );
+
+		return $result;
 	}
 
 	/**
@@ -230,7 +234,11 @@ class Cache {
 	 * @return bool
 	 */
 	public function purge_post( $post ) {
-		return $this->purge_url( get_permalink( $post ) );
+		$result = $this->purge_url( get_permalink( $post ) );
+
+		do_action( 'spinupwp_post_purged', $post, $result );
+
+		return $result;
 	}
 
 	/**
@@ -241,9 +249,12 @@ class Cache {
 	 * @return bool
 	 */
 	public function purge_url( $url ) {
-		$path = $this->get_cache_path_for_url( $url );
+		$path   = $this->get_cache_path_for_url( $url );
+		$result = $this->delete( $path );
 
-		return $this->delete( $path );
+		do_action( 'spinupwp_url_purged', $url, $result );
+
+		return $result;
 	}
 
 	/**

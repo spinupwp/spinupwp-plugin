@@ -2,6 +2,8 @@
 
 namespace DeliciousBrains\SpinupWp;
 
+use DeliciousBrains\SpinupWp\Cli\CacheCommands;
+
 class Cache {
 	/**
 	 * @var Plugin
@@ -45,7 +47,7 @@ class Cache {
 		if ( $this->is_page_cache_enabled() ) {
 			$this->plugin->add_admin_bar_item( 'Purge Page Cache', 'purge-page' );
 
-			$this->cli->register_command( CacheCliCommands::class );
+			$this->cli->register_command( CacheCommands::class );
 		}
 
 		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );

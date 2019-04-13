@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp;
+namespace DeliciousBrains\SpinupWp\Cli;
 
 use WP_CLI;
 
@@ -12,7 +12,7 @@ use WP_CLI;
  *     # Purge the entire SpinupWP page cache
  *     $ wp spinupwp purge-site
  */
-class CacheCliCommands {
+class CacheCommands {
 	/**
      * Purge the entire SpinupWP page cache.
      *

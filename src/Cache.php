@@ -9,6 +9,11 @@ class Cache {
 	private $plugin;
 
 	/**
+	 * @var Cli
+	 */
+	private $cli;
+
+	/**
 	 * @var string
 	 */
 	private $cache_path;
@@ -18,8 +23,9 @@ class Cache {
 	 *
 	 * @param Plugin $plugin
 	 */
-	public function __construct( Plugin $plugin ) {
+	public function __construct( Plugin $plugin, Cli $cli ) {
 		$this->plugin = $plugin;
+		$this->cli    = $cli;
 	}
 
 	/**
@@ -38,6 +44,8 @@ class Cache {
 
 		if ( $this->is_page_cache_enabled() ) {
 			$this->plugin->add_admin_bar_item( 'Purge Page Cache', 'purge-page' );
+
+			$this->cli->register_command( CacheCliCommands::class );
 		}
 
 		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );

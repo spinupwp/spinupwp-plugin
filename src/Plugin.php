@@ -2,11 +2,9 @@
 
 namespace DeliciousBrains\SpinupWp;
 
-class Plugin {
-	/**
-	 * @var Cache
-	 */
-	public $cache;
+use Pimple\Container;
+
+class Plugin extends Container {
 
 	/**
 	 * @var array
@@ -17,8 +15,14 @@ class Plugin {
 	 *
 	 */
 	public function run() {
-		$this->cache = new Cache( $this );
-		$this->cache->init();
+		$this['cli']   = new Cli();
+		$this['cache'] = new Cache( $this, $this['cli'] );
+
+		foreach ( $this->keys() as $key ) {
+			if ( method_exists( $this[ $key ], 'init' ) ) {
+				$this[ $key ]->init();
+			}
+		}
 
 		add_action( 'admin_bar_menu', array( $this, 'render_admin_bar' ), 100 );
 	}

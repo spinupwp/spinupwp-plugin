@@ -11,8 +11,8 @@ class Plugin extends Container {
 	 */
 	public function run() {
 		$this['AdminBar'] = new AdminBar();
-		$this['cli']      = new Cli();
-		$this['cache']    = new Cache( $this['AdminBar'], $this['cli'] );
+		$this['Cli']      = new Cli();
+		$this['Cache']    = new Cache( $this['AdminBar'], $this['Cli'] );
 
 		foreach ( $this->keys() as $key ) {
 			if ( method_exists( $this[ $key ], 'init' ) ) {

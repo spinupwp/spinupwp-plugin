@@ -24,7 +24,7 @@ class CacheCommands {
 	 * @subcommand purge-site
      */
     public function purge_site() {
-		if ( spinupwp()['cache']->purge_page_cache() ) {
+		if ( spinupwp()['Cache']->purge_page_cache() ) {
 			WP_CLI::success( __( 'Site cache purged.', 'spinupwp' ) );
 		} else {
 			WP_CLI::error( __( 'Site cache could not be purged.', 'spinupwp' ) );
@@ -53,7 +53,7 @@ class CacheCommands {
 			return;
 		}
 
-		if ( spinupwp()['cache']->purge_post( $post ) ) {
+		if ( spinupwp()['Cache']->purge_post( $post ) ) {
 			WP_CLI::success( __( 'Post purged from cache.', 'spinupwp' ) );
 		} else {
 			WP_CLI::error( __( 'Post could not be purged from cache.', 'spinupwp' ) );
@@ -75,7 +75,7 @@ class CacheCommands {
 	 * @subcommand purge-url
      */
     public function purge_url( $args ) {
-		if ( spinupwp()['cache']->purge_url( $args[0] ) ) {
+		if ( spinupwp()['Cache']->purge_url( $args[0] ) ) {
 			WP_CLI::success( __( 'URL purged from cache.', 'spinupwp' ) );
 		} else {
 			WP_CLI::error( __( 'URL could not be purged from cache.', 'spinupwp' ) );

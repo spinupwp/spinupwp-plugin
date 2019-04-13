@@ -4,6 +4,14 @@ namespace DeliciousBrains\SpinupWp;
 
 use WP_CLI;
 
+/**
+ * Perform SpinupWP operations.
+ *
+ * ## EXAMPLES
+ *
+ *     # Purge the entire SpinupWP page cache
+ *     $ wp spinupwp purge-site
+ */
 class CacheCliCommands {
 	/**
      * Purge the entire SpinupWP page cache.

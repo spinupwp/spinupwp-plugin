@@ -12,7 +12,7 @@ if ( ! function_exists( 'spinupwp_purge_site' ) ) {
      * @return bool
      */
     function spinupwp_purge_site() {
-        return spinupwp()['Cache']->purge_page_cache();
+        return spinupwp()->cache->purge_page_cache();
     }
 }
 
@@ -24,7 +24,7 @@ if ( ! function_exists( 'spinupwp_purge_post' ) ) {
      * @return bool
      */
     function spinupwp_purge_post( $post ) {
-        return spinupwp()['Cache']->purge_post( $post );
+        return spinupwp()->cache->purge_post( $post );
     }
 }
 
@@ -36,6 +36,6 @@ if ( ! function_exists( 'spinupwp_purge_url' ) ) {
      * @return bool
      */
     function spinupwp_purge_url( $url ) {
-        return spinupwp()['Cache']->purge_url( $url );
+        return spinupwp()->cache->purge_url( $url );
     }
 }

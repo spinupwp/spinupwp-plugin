@@ -2,22 +2,21 @@
 
 namespace DeliciousBrains\SpinupWp;
 
-use Pimple\Container;
+class Plugin {
 
-class Plugin extends Container {
+	/**
+	 * @var Cache
+	 */
+	public $cache;
 
 	/**
 	 * Run the SpinupWP plugin.
 	 */
 	public function run() {
-		$this['AdminBar'] = new AdminBar();
-		$this['Cli']      = new Cli();
-		$this['Cache']    = new Cache( $this['AdminBar'], $this['Cli'] );
+		$admin_bar   = new AdminBar;
+		$this->cache = new Cache( $admin_bar, new Cli );
 
-		foreach ( $this->keys() as $key ) {
-			if ( method_exists( $this[ $key ], 'init' ) ) {
-				$this[ $key ]->init();
-			}
-		}
+		$this->cache->init();
+		$admin_bar->init();
 	}
 }

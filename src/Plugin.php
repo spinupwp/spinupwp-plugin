@@ -36,6 +36,13 @@ class Plugin {
 	 * Perform actions on plugin activation.
 	 */
 	public static function install() {
-		error_log( 'Test' );
+		global $wp_filesystem;
+
+		$plugin_path = untrailingslashit( dirname( __DIR__ ) );
+
+		if ( ! file_exists( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' ) ) {
+			$wp_filesystem->copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php', true );
+		}
+		
 	}
 }

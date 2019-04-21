@@ -43,7 +43,7 @@ function spinupwp()
         return $GLOBALS['spinupwp'];
     }
     
-    $GLOBALS['spinupwp'] = new \DeliciousBrains\SpinupWp\Plugin();
+    $GLOBALS['spinupwp'] = new \DeliciousBrains\SpinupWp\Plugin( __FILE__ );
     $GLOBALS['spinupwp']->run();
 
     return $GLOBALS['spinupwp'];

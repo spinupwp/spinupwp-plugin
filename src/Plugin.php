@@ -46,12 +46,11 @@ class Plugin {
 	 * Perform actions on plugin activation.
 	 */
 	public static function install() {
-		global $wp_filesystem;
-
 		$plugin_path = untrailingslashit( dirname( __DIR__ ) );
+		$wpmu_dir    = untrailingslashit( WPMU_PLUGIN_DIR );
 
-		if ( ! file_exists( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' ) ) {
-			$wp_filesystem->copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php', true );
+		if ( ! file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
+			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 		
 	}
@@ -60,10 +59,10 @@ class Plugin {
 	 * Perform actions on plugin uninstall.
 	 */
 	public static function uninstall() {
-		global $wp_filesystem;
+		$wpmu_dir = untrailingslashit( WPMU_PLUGIN_DIR );
 
-		if ( file_exists( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' ) ) {
-			$wp_filesystem->delete( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' );
+		if ( file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
+			@unlink( $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 	}
 }

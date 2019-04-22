@@ -50,6 +50,7 @@ class Plugin {
 		$wpmu_dir    = untrailingslashit( WPMU_PLUGIN_DIR );
 
 		if ( ! file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
+			wp_mkdir_p( $wpmu_dir );
 			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 		

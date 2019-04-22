@@ -10,24 +10,33 @@ class Plugin {
 	public $path;
 
 	/**
+	 * @var string
+	 */
+	public $url;
+
+	/**
 	 * @var Cache
 	 */
 	public $cache;
 
-	public function __construct( $path )
-	{
+	public function __construct( $path ) {
 		$this->path = $path;
+		$this->url  = plugin_dir_url( $path );
 	}
 
 	/**
 	 * Run the SpinupWP plugin.
 	 */
 	public function run() {
-		$admin_bar   = new AdminBar;
-		$this->cache = new Cache( $admin_bar, new Cli );
+		if ( getenv( 'SPINUPWP_SITE' ) ) {
+			$admin_bar     = new AdminBar;
+			$admin_notices = new AdminNotices( $this->url );
+			$this->cache   = new Cache( $admin_bar, new Cli );
 
-		$this->cache->init();
-		$admin_bar->init();
+			$this->cache->init();
+			$admin_bar->init();
+			$admin_notices->init();
+		}
 
 		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
 		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );

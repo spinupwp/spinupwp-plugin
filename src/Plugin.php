@@ -30,6 +30,7 @@ class Plugin {
 		$admin_bar->init();
 
 		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
+		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
 	}
 
 	/**
@@ -44,5 +45,16 @@ class Plugin {
 			$wp_filesystem->copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php', true );
 		}
 		
+	}
+
+	/**
+	 * Perform actions on plugin uninstall.
+	 */
+	public static function uninstall() {
+		global $wp_filesystem;
+
+		if ( file_exists( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' ) ) {
+			$wp_filesystem->delete( WPMU_PLUGIN_DIR . '/spinupwp-debug-log-path.php' );
+		}
 	}
 }

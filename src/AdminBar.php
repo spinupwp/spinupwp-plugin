@@ -26,7 +26,7 @@ class AdminBar {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( apply_filters( 'spinupwp_purge_cache_capability', 'manage_options' ) ) ) {
 			return;
 		}
 

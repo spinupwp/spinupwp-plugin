@@ -63,6 +63,10 @@ class Cache {
 	 * Handle manual purge actions.
 	 */
 	public function handle_manual_purge_action() {
+		if ( ! current_user_can( apply_filters( 'spinupwp_purge_cache_capability', 'manage_options' ) ) ) {
+			return;
+		}
+		
 		$action = filter_input( INPUT_GET, 'spinupwp_action' );
 
 		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page' ) ) ) {

@@ -46,6 +46,10 @@ class Plugin {
 	 * Perform actions on plugin activation.
 	 */
 	public static function install() {
+		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
+			return;
+		}
+
 		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
@@ -64,6 +68,10 @@ class Plugin {
 	 * Perform actions on plugin uninstall.
 	 */
 	public static function uninstall() {
+		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
+			return;
+		}
+
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 

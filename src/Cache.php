@@ -362,7 +362,7 @@ class Cache {
 			return false;
 		}
 
-		return true;
+		return apply_filters( 'spinupwp_should_purge_post_status', true );
 	}
 
 	/**

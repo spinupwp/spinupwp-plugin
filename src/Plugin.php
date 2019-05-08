@@ -59,7 +59,7 @@ class Plugin {
 			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 
-		if ( ! file_exists( $wpcontent_dir . '/object-cache.php' ) && getenv( 'SPINUPWP_CACHE_PATH' ) ) {
+		if ( ! file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
 		}
 	}

@@ -104,7 +104,7 @@ class Cache {
 	 *
 	 * @param string $new_status
 	 * @param string $old_status
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 *
 	 * @return bool
 	 */
@@ -239,7 +239,7 @@ class Cache {
 	/**
 	 * Purge the current post URL.
 	 *
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 *
 	 * @return bool
 	 */

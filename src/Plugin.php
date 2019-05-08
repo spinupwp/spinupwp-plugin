@@ -36,10 +36,10 @@ class Plugin {
 			$this->cache->init();
 			$admin_bar->init();
 			$admin_notices->init();
-		}
 
-		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
-		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+			register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
+			register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+		}
 	}
 
 	/**

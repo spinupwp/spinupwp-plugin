@@ -61,6 +61,7 @@ class AdminNotices {
 	 */
 	public function show_notices() {
 		$this->show_mail_notice();
+		$this->show_redis_cache_disabled_notice();
 	}
 
 	/**
@@ -75,5 +76,18 @@ class AdminNotices {
 		$link  = sprintf( '<a href="%s">%s &raquo;</a>', 'https://spinupwp.com/doc/setting-up-transactional-email-wordpress/', __( 'More info', 'spinupwp' ) );
 		$nonce = wp_create_nonce( 'dismiss-notice' );
 		echo "<div class=\"spinupwp notice notice-success is-dismissible\" data-nonce=\"{$nonce}\" data-notice=\"mail\"><p><strong>SpinupWP</strong> — {$msg} {$link}</p></div>";
+	}
+
+	/**
+	 * Show a notice about Redis Object Cache plugin being disabled.
+	 */
+	public function show_redis_cache_disabled_notice() {
+		if ( ! current_user_can( 'manage_options' ) || ! get_site_option( 'spinupwp_redis_cache_disabled' ) || get_site_option( 'spinupwp_redis_cache_disabled_notice_dismissed' ) ) {
+			return;
+		}
+
+		$msg   = __( 'The Redis Object Cache plugin has been deactivated and can be removed. The SpinupWP plugin now handles clearing the Redis object cache.', 'spinupwp' );
+		$nonce = wp_create_nonce( 'dismiss-notice' );
+		echo "<div class=\"spinupwp notice notice-success is-dismissible\" data-nonce=\"{$nonce}\" data-notice=\"redis_cache_disabled\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
 	}
 }

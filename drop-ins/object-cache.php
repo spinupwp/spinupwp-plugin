@@ -5,12 +5,12 @@ Plugin URI: http://wordpress.org/plugins/spinupwp/
 Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, HHVM, replication, clustering and WP-CLI.
 Version: 1.0.0
 Author: Delicious Brains
-Author URI: https://spinupwp.com/
+Author URI: https://deliciousbrains.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Based on Till Kruss Redis Object Cache:
-https://github.com/tillkruss/redis-cache/
+// Based on Till Kruss Redis Object Cache:
+// https://github.com/tillkruss/redis-cache/
 */
 
 if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :

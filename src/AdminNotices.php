@@ -73,7 +73,7 @@ class AdminNotices {
 		}
 
 		$msg   = __( 'Your site is ready to go! You will need to set up email if you wish to send outgoing emails from this site.', 'spinupwp' );
-		$link  = sprintf( '<a href="%s">%s &raquo;</a>', 'https://spinupwp.com/doc/setting-up-transactional-email-wordpress/', __( 'More info', 'spinupwp' ) );
+		$link  = sprintf( '<a href="%s">%s &raquo;</a>', 'https://spinupwp.com/doc/setting-up-transactional-email-wordpress/?utm_campaign=support%2Bdocs&utm_source=SpinupWP%2BMU&utm_medium=insideplugin', __( 'More info', 'spinupwp' ) );
 		$nonce = wp_create_nonce( 'dismiss-notice' );
 		echo "<div class=\"spinupwp notice notice-success is-dismissible\" data-nonce=\"{$nonce}\" data-notice=\"mail\"><p><strong>SpinupWP</strong> — {$msg} {$link}</p></div>";
 	}

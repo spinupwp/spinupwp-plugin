@@ -20,7 +20,7 @@ if ( ! function_exists( 'spinupwp_purge_post' ) ) {
     /**
      * Purge a single post from the SpinupWP page cache.
      *
-     * @param WP_Post $post
+     * @param \WP_Post $post
      * @return bool
      */
     function spinupwp_purge_post( $post ) {

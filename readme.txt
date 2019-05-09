@@ -12,11 +12,11 @@ SpinupWP is a modern server control panel that's here to help you implement best
 
 == Description ==
 
-[SpinupWP](https://spinupwp.com/) - Your Own Flawless WordPress Server, Spun Up in Minutes
+**This plugin ensures that the SpinupWP page cache is cleared when your site's content changes. Not using SpinupWP yet? [Sign up here.](https://spinupwp.com/pricing/)**
 
 SpinupWP is a modern server control panel that's here to help you implement best practices for every server you spin up. Designed for WordPress.
 
-This plugin ensures that the SpinupWP page cache is cleared when your site's content changes. Not using SpinupWP yet? [Sign up here.](https://spinupwp.com/pricing/)
+This companion plugin should be installed on sites created using SpinupWP to allow the page cache to be cleared when your site's content changes. Not using SpinupWP yet? [Sign up here.](https://spinupwp.com/pricing/)
 
 **Any Provider**
 

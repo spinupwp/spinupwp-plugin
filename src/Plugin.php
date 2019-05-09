@@ -28,15 +28,17 @@ class Plugin {
 	 * Run the SpinupWP plugin.
 	 */
 	public function run() {
-		if ( getenv( 'SPINUPWP_SITE' ) ) {
-			$admin_bar     = new AdminBar;
-			$admin_notices = new AdminNotices( $this->url );
-			$this->cache   = new Cache( $admin_bar, new Cli );
-
-			$this->cache->init();
-			$admin_bar->init();
-			$admin_notices->init();
+		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
+			return;
 		}
+
+		$admin_bar     = new AdminBar;
+		$admin_notices = new AdminNotices( $this->url );
+		$this->cache   = new Cache( $admin_bar, new Cli );
+
+		$this->cache->init();
+		$admin_bar->init();
+		$admin_notices->init();
 
 		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
 		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
@@ -46,10 +48,6 @@ class Plugin {
 	 * Perform actions on plugin activation.
 	 */
 	public static function install() {
-		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
-			return;
-		}
-
 		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
@@ -68,10 +66,6 @@ class Plugin {
 	 * Perform actions on plugin uninstall.
 	 */
 	public static function uninstall() {
-		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
-			return;
-		}
-
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 

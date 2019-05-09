@@ -87,5 +87,9 @@ class Plugin {
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@unlink( $wpcontent_dir . '/object-cache.php' );
 		}
+
+		delete_site_option( 'spinupwp_redis_cache_disabled' );
+		delete_site_option( 'spinupwp_mail_notice_dismissed' );
+		delete_site_option( 'spinupwp_redis_cache_disabled_notice_dismissed' );
 	}
 }

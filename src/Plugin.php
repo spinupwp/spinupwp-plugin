@@ -80,6 +80,10 @@ class Plugin {
 			@unlink( $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 
+		if ( function_exists( 'wp_cache_flush' ) ) {
+			wp_cache_flush();
+		}
+
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@unlink( $wpcontent_dir . '/object-cache.php' );
 		}

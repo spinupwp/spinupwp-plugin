@@ -42,6 +42,7 @@ class Plugin {
 
 		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
 		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 
 	/**
@@ -55,11 +56,6 @@ class Plugin {
 		if ( ! file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
 			wp_mkdir_p( $wpmu_dir );
 			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
-		}
-
-		if ( is_plugin_active( 'redis-cache/redis-cache.php' ) ) {
-			deactivate_plugins( 'redis-cache/redis-cache.php' );
-			update_site_option( 'spinupwp_redis_cache_disabled', true );
 		}
 
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
@@ -91,5 +87,15 @@ class Plugin {
 		delete_site_option( 'spinupwp_redis_cache_disabled' );
 		delete_site_option( 'spinupwp_mail_notice_dismissed' );
 		delete_site_option( 'spinupwp_redis_cache_disabled_notice_dismissed' );
+	}
+
+	/**
+	 * Perform actions on admin init.
+	 */
+	public function admin_init() {
+		if ( is_plugin_active( 'redis-cache/redis-cache.php' ) ) {
+			deactivate_plugins( 'redis-cache/redis-cache.php' );
+			update_site_option( 'spinupwp_redis_cache_disabled', true );
+		}
 	}
 }

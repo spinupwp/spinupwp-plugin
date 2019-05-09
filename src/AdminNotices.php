@@ -53,7 +53,7 @@ class AdminNotices {
 
 		$notice = filter_var( $_POST['notice'], FILTER_SANITIZE_STRING );
 
-		update_site_option( "spinupwp_{$notice}_dismissed", true );
+		update_site_option( "spinupwp_{$notice}_notice_dismissed", true );
 	}
 
 	/**

@@ -42,6 +42,7 @@ class Plugin {
 
 		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
 		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 
 	/**
@@ -75,6 +76,17 @@ class Plugin {
 
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@unlink( $wpcontent_dir . '/object-cache.php' );
+		}
+	}
+
+	/**
+	 * Perform actions on admin init.
+	 */
+	public function admin_init() {
+		if ( is_plugin_active( 'redis-cache/redis-cache.php' ) ) {
+			deactivate_plugins( 'redis-cache/redis-cache.php' );
+
+			update_site_option( 'spinupwp_redis_cache_disabled', true );
 		}
 	}
 }

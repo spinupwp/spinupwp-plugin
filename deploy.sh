@@ -132,6 +132,13 @@ echo
 
 echo
 
+composer -v > /dev/null 2>&1
+COMPOSER_IS_INSTALLED=$?
+if [[ $COMPOSER_IS_INSTALLED -ne 0 ]]; then
+    echo "Composer not installed. Aborting."
+    exit 1
+fi
+
 echo "Changing to $PLUGINDIR"
 cd "$PLUGINDIR"
 

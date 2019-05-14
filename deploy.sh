@@ -190,6 +190,11 @@ fi
 
 echo
 
+echo "Running composer install..."
+composer install --optimize-autoloader --no-dev -d "$SVNPATH/trunk/"
+
+echo
+
 # Support for the /assets folder on the .org repo.
 echo "Moving assets."
 # Make the directory if it doesn't already exist

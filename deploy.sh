@@ -160,6 +160,7 @@ svn update --quiet "$SVNPATH/trunk" --set-depth infinity
 
 echo "Ignoring GitHub specific files"
 svn propset svn:ignore "README.md
+deploy.sh
 Thumbs.db
 .github/*
 .git

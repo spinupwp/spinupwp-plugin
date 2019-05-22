@@ -28,10 +28,6 @@ class Plugin {
 	 * Run the SpinupWP plugin.
 	 */
 	public function run() {
-		if ( ! getenv( 'SPINUPWP_SITE' ) ) {
-			return;
-		}
-
 		$admin_bar     = new AdminBar;
 		$admin_notices = new AdminNotices( $this->url );
 		$this->cache   = new Cache( $admin_bar, new Cli );
@@ -40,9 +36,11 @@ class Plugin {
 		$admin_bar->init();
 		$admin_notices->init();
 
-		register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
-		register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
+        if ( getenv( 'SPINUPWP_SITE' ) ) {
+            register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
+            register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+            add_action( 'admin_init', array( $this, 'admin_init' ) );
+        }
 	}
 
 	/**

@@ -678,7 +678,7 @@ class WP_Object_Cache {
 
         if ( $this->redis_status() ) {
             $salt      = defined( 'WP_CACHE_KEY_SALT' ) ? trim( WP_CACHE_KEY_SALT ) : null;
-            $selective = defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ? WP_REDIS_SELECTIVE_FLUSH : null;
+            $selective = true; // @deprecated WP_REDIS_SELECTIVE_FLUSH
 
             if ( $salt && $selective ) {
                 $script = "

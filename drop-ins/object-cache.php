@@ -677,7 +677,7 @@ class WP_Object_Cache {
         $this->cache = array();
 
         if ( $this->redis_status() ) {
-            $salt      = defined( 'WP_CACHE_KEY_SALT' ) ? trim( WP_CACHE_KEY_SALT ) : null;
+            $salt      = $this->get_cache_key_salt();
             $selective = true; // @deprecated WP_REDIS_SELECTIVE_FLUSH
 
             if ( $salt && $selective ) {
@@ -1055,7 +1055,7 @@ class WP_Object_Cache {
             $group = 'default';
         }
 
-        $salt   = defined( 'WP_CACHE_KEY_SALT' ) ? trim( WP_CACHE_KEY_SALT ) : '';
+        $salt   = $this->get_cache_key_salt();
         $prefix = in_array( $group, $this->global_groups ) ? $this->global_prefix : $this->blog_prefix;
 
         return "{$salt}{$prefix}:{$group}:{$key}";
@@ -1334,6 +1334,26 @@ class WP_Object_Cache {
 
         error_log( $exception );
     }
+
+	/**
+     * Get the cache key salt
+     *
+	 * @return string|null
+	 */
+	private function get_cache_key_salt() {
+		if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+			return SPINUPWP_CACHE_KEY_SALT;
+		}
+		if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+			return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
+		}
+		if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
+		    // @deprecated
+			return WP_CACHE_KEY_SALT;
+		}
+
+		return null;
+	}
 }
 
 endif;

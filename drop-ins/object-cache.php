@@ -85,8 +85,7 @@ function wp_cache_delete( $key, $group = '', $time = 0 ) {
 }
 
 /**
- * Invalidate all items in the cache. If `WP_REDIS_SELECTIVE_FLUSH` is `true`,
- * only keys prefixed with the `WP_CACHE_KEY_SALT` are flushed.
+ * Invalidate all items in the cache.
  *
  * @param int $delay Number of seconds to wait before invalidating the items.
  *
@@ -659,8 +658,7 @@ class WP_Object_Cache {
     }
 
     /**
-     * Invalidate all items in the cache. If `WP_REDIS_SELECTIVE_FLUSH` is `true`,
-     * only keys prefixed with the `WP_CACHE_KEY_SALT` are flushed.
+     * Invalidate all items in the cache.
      *
      * @param int $delay Number of seconds to wait before invalidating the items.
      *

@@ -232,9 +232,8 @@ echo
 echo "Creating new SVN tag and committing it."
 cd "$SVNPATH"
 svn copy --quiet trunk/ "tags/$PLUGINVERSION/"
-# Remove assets and trunk directories from tag directory
+# Remove trunk directory from tag directory
 svn delete --force --quiet "$SVNPATH/tags/$PLUGINVERSION/trunk"
-svn delete --force --quiet "$SVNPATH/tags/$PLUGINVERSION/assets"
 svn update --quiet --accept working "$SVNPATH/tags/$PLUGINVERSION"
 #svn resolve --accept working "$SVNPATH/tags/$PLUGINVERSION"/*
 cd "$SVNPATH/tags/$PLUGINVERSION"

@@ -197,12 +197,13 @@ composer install --optimize-autoloader --no-dev -d "$SVNPATH/trunk/"
 echo
 
 # Support for the /assets folder on the .org repo.
-echo "Moving assets."
+echo "Moving WP assets."
 # Make the directory if it doesn't already exist
 mkdir -p "$SVNPATH/assets/"
-mv "$SVNPATH"/trunk/assets/* "$SVNPATH/assets/"
+mv "$SVNPATH"/trunk/wp-assets/* "$SVNPATH/assets/"
+rm "$SVNPATH/assets/.gitkeep"
 svn add --force "$SVNPATH/assets/"
-svn delete --force "$SVNPATH/trunk/assets"
+svn delete --force "$SVNPATH/trunk/wp-assets"
 
 echo
 

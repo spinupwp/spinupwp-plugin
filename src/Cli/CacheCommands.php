@@ -81,4 +81,33 @@ class CacheCommands {
 			WP_CLI::error( __( 'URL could not be purged from cache.', 'spinupwp' ) );
 		}
     }
+
+    /**
+     * Update the Redis object cache drop-in
+     *
+     * ## EXAMPLES
+     *
+     *     wp spinupwp update-object-cache-dropin
+     *
+     * @subcommand update-object-cache-dropin
+     */
+    public function update_object_cache_dropin() {
+        $wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+
+        if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
+            @unlink( $wpcontent_dir . '/object-cache.php' );
+        }
+
+        $plugin_path = untrailingslashit( dirname( dirname( __DIR__ ) ) );
+
+        if( @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' ) ) {
+            WP_CLI::success( __( 'Object cache drop-in updated.', 'spinupwp' ) );
+        } else {
+            WP_CLI::error( __( 'Object cache drop-in could not be updated.', 'spinupwp' ) );
+        }
+
+        if ( function_exists( 'wp_cache_flush' ) ) {
+            wp_cache_flush();
+        }
+    }
 }

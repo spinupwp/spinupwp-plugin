@@ -87,6 +87,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 
 = 1.0.3 =
 * Fix "The plugin does not have a valid header" error.
+* Deprecate `WP_CACHE_KEY_SALT` and `WP_REDIS_SELECTIVE_FLUSH` constants.
 
 = 1.0.2 =
 * Fix missing assets directory.

@@ -10,6 +10,7 @@ class Cli {
 	 * Register a CLI command.
 	 *
 	 * @param string $callable
+	 *
 	 * @return bool
 	 */
 	public function register_command( $callable ) {
@@ -17,6 +18,6 @@ class Cli {
 			return false;
 		}
 
-		return WP_CLI::add_command( 'spinupwp', $callable );	
+		return WP_CLI::add_command( 'spinupwp', $callable );
 	}
 }

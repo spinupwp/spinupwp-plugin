@@ -2,6 +2,8 @@
 
 namespace DeliciousBrains\SpinupWp;
 
+use DeliciousBrains\SpinupWp\Cli\Commands;
+
 class Plugin {
 
 	/**
@@ -30,7 +32,10 @@ class Plugin {
 	public function run() {
 		$admin_bar     = new AdminBar;
 		$admin_notices = new AdminNotices( $this->url );
-		$this->cache   = new Cache( $admin_bar, new Cli );
+		$cli           = new Cli;
+
+		$cli->register_command( 'spinupwp', Commands::class );
+		$this->cache = new Cache( $admin_bar, $cli );
 
 		$this->cache->init();
 		$admin_bar->init();

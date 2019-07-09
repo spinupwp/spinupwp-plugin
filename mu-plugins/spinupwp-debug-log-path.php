@@ -9,5 +9,5 @@ Author URI: https://deliciousbrains.com/
 */
 
 if ( getenv( 'SPINUPWP_LOG_PATH' ) && WP_DEBUG && WP_DEBUG_LOG ) {
-    ini_set( 'error_log', getenv( 'SPINUPWP_LOG_PATH' ) );
+	ini_set( 'error_log', getenv( 'SPINUPWP_LOG_PATH' ) );
 }

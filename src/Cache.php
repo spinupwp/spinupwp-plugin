@@ -3,6 +3,7 @@
 namespace DeliciousBrains\SpinupWp;
 
 use DeliciousBrains\SpinupWp\Cli\CacheCommands;
+use WP_Post;
 
 class Cache {
 
@@ -66,7 +67,7 @@ class Cache {
 		if ( ! current_user_can( apply_filters( 'spinupwp_purge_cache_capability', 'manage_options' ) ) ) {
 			return;
 		}
-		
+
 		$action = filter_input( INPUT_GET, 'spinupwp_action' );
 
 		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page' ) ) ) {
@@ -108,7 +109,7 @@ class Cache {
 	 *
 	 * @param string $new_status
 	 * @param string $old_status
-	 * @param \WP_Post $post
+	 * @param WP_Post $post
 	 *
 	 * @return bool
 	 */
@@ -243,7 +244,7 @@ class Cache {
 	/**
 	 * Purge the current post URL.
 	 *
-	 * @param \WP_Post $post
+	 * @param WP_Post $post
 	 *
 	 * @return bool
 	 */

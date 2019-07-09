@@ -36,11 +36,14 @@ class Plugin {
 		$admin_bar->init();
 		$admin_notices->init();
 
-        if ( getenv( 'SPINUPWP_SITE' ) ) {
-            register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
-            register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
-            add_action( 'admin_init', array( $this, 'admin_init' ) );
-        }
+		if ( getenv( 'SPINUPWP_SITE' ) ) {
+			register_activation_hook( $this->path, array( Plugin::class, 'install' ) );
+			register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
+			add_action( 'admin_init', array( $this, 'admin_init' ) );
+
+			$site_health = new SiteHealth();
+			$site_health->init();
+		}
 	}
 
 	/**

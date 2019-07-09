@@ -2,9 +2,9 @@
 Contributors: deliciousbrains
 Tags: cache
 Requires at least: 4.7
-Tested up to: 5.2
+Tested up to: 5.2.2
 Requires PHP: 7.1
-Stable tag: 1.0.3
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,13 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.1 =
+* `wp spinupwp status` and `wp spinupwp update-object-cache-dropin` WP-CLI commands added.
+* WP-CLI cache related commands moved to new `cache` subcommand, e.g. `wp spinupwp cache purge-site`.
+* Don't report "Your site is set to log errors to a potentially public file" issue in site health tool.
+* Automatically update object-cache.php drop-in when a new version is available.
+* Adhere to WordPress coding standards.
 
 = 1.0.3 =
 * Fix "The plugin does not have a valid header" error.

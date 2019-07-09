@@ -102,5 +102,22 @@ class Plugin {
 			deactivate_plugins( 'redis-cache/redis-cache.php' );
 			update_site_option( 'spinupwp_redis_cache_disabled', true );
 		}
+
+		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
+		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+
+		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
+			$dropin = get_plugin_data( $wpcontent_dir . '/object-cache.php' );
+			$plugin = get_plugin_data( $plugin_path . '/drop-ins/object-cache.php' );
+
+			if ( $dropin['PluginURI'] !== $plugin['PluginURI'] ) {
+				return;
+			}
+
+			if ( version_compare( $dropin['Version'], $plugin['Version'], '<' ) ) {
+				@unlink( $wpcontent_dir . '/object-cache.php' );
+				@copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
+			}
+		}
 	}
 }

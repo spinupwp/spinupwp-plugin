@@ -202,6 +202,8 @@ echo "Moving WP assets."
 mkdir -p "$SVNPATH/assets/"
 mv "$SVNPATH"/trunk/wp-assets/* "$SVNPATH/assets/"
 rm "$SVNPATH/assets/.gitkeep"
+svn propset svn:mime-type image/png *.png
+svn propset svn:mime-type image/jpeg *.jpg
 svn add --force "$SVNPATH/assets/"
 svn delete --force "$SVNPATH/trunk/wp-assets"
 

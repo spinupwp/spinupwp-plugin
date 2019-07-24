@@ -85,25 +85,25 @@ Create a new team account, invite a member of your team, and allow them to spin 
 
 == Changelog ==
 
-= 1.1.1 =
+= 1.1.1 (2019-07-24) =
 * Fix object-cache.php file deletion on Redis Object Cache plugin uninstall.
 
-= 1.1 =
+= 1.1 (2019-07-09) =
 * `wp spinupwp status` and `wp spinupwp update-object-cache-dropin` WP-CLI commands added.
 * WP-CLI cache related commands moved to new `cache` subcommand, e.g. `wp spinupwp cache purge-site`.
 * Don't report "Your site is set to log errors to a potentially public file" issue in site health tool.
 * Automatically update object-cache.php drop-in when a new version is available.
 * Adhere to WordPress coding standards.
 
-= 1.0.3 =
+= 1.0.3 (2019-07-08) =
 * Fix "The plugin does not have a valid header" error.
 * Deprecate `WP_CACHE_KEY_SALT` and `WP_REDIS_SELECTIVE_FLUSH` constants.
 
-= 1.0.2 =
+= 1.0.2 (2019-06-20) =
 * Fix missing assets directory.
 
-= 1.0.1 =
+= 1.0.1 (2019-05-22) =
 * Ensure cache purge functionality is available on legacy SpinupWP sites.
 
-= 1.0 =
+= 1.0 (2019-04-22) =
 * Initial release.

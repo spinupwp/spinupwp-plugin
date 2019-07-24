@@ -4,7 +4,7 @@ Tags: cache
 Requires at least: 4.7
 Tested up to: 5.2.2
 Requires PHP: 7.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.1.1 =
+* Fix object-cache.php file deletion on Redis Object Cache plugin uninstall.
 
 = 1.1 =
 * `wp spinupwp status` and `wp spinupwp update-object-cache-dropin` WP-CLI commands added.

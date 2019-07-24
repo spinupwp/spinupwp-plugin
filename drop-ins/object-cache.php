@@ -515,7 +515,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 		 *
 		 * @return bool
 		 */
-		public function redis_status() {
+		public function status() {
 			return $this->redis_connected;
 		}
 
@@ -588,7 +588,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$derived_key = $this->build_key( $key, $group );
 
 			// save if group not excluded and redis is up
-			if ( ! in_array( $group, $this->ignored_groups ) && $this->redis_status() ) {
+			if ( ! in_array( $group, $this->ignored_groups ) && $this->status() ) {
 				try {
 					$exists = $this->redis->exists( $derived_key );
 
@@ -640,7 +640,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 				$result = true;
 			}
 
-			if ( $this->redis_status() && ! in_array( $group, $this->ignored_groups ) ) {
+			if ( $this->status() && ! in_array( $group, $this->ignored_groups ) ) {
 				try {
 					$result = $this->parse_redis_response( $this->redis->del( $derived_key ) );
 				} catch ( Exception $exception ) {
@@ -674,7 +674,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$results     = [];
 			$this->cache = array();
 
-			if ( $this->redis_status() ) {
+			if ( $this->status() ) {
 				$salt      = $this->get_cache_key_salt();
 				$selective = true; // @deprecated WP_REDIS_SELECTIVE_FLUSH
 
@@ -777,7 +777,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 				$this->cache_hits ++;
 
 				return is_object( $this->cache[ $derived_key ] ) ? clone $this->cache[ $derived_key ] : $this->cache[ $derived_key ];
-			} elseif ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+			} elseif ( in_array( $group, $this->ignored_groups ) || ! $this->status() ) {
 				$found = false;
 				$this->cache_misses ++;
 
@@ -842,7 +842,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$cache = array();
 
 			foreach ( $groups as $group => $keys ) {
-				if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+				if ( in_array( $group, $this->ignored_groups ) || ! $this->status() ) {
 					foreach ( $keys as $key ) {
 						$cache[ $this->build_key( $key, $group ) ] = $this->get( $key, $group );
 					}
@@ -905,7 +905,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$derived_key = $this->build_key( $key, $group );
 
 			// save if group not excluded from redis and redis is up
-			if ( ! in_array( $group, $this->ignored_groups ) && $this->redis_status() ) {
+			if ( ! in_array( $group, $this->ignored_groups ) && $this->status() ) {
 				$expiration = apply_filters( 'redis_cache_expiration', $this->validate_expiration( $expiration ), $key, $group );
 
 				try {
@@ -947,7 +947,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$offset      = (int) $offset;
 
 			// If group is a non-Redis group, save to internal cache, not Redis
-			if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+			if ( in_array( $group, $this->ignored_groups ) || ! $this->status() ) {
 				$value = $this->get_from_internal_cache( $derived_key, $group );
 				$value += $offset;
 				$this->add_to_internal_cache( $derived_key, $value );
@@ -996,7 +996,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			$offset      = (int) $offset;
 
 			// If group is a non-Redis group, save to internal cache, not Redis
-			if ( in_array( $group, $this->ignored_groups ) || ! $this->redis_status() ) {
+			if ( in_array( $group, $this->ignored_groups ) || ! $this->status() ) {
 				$value = $this->get_from_internal_cache( $derived_key, $group );
 				$value -= $offset;
 				$this->add_to_internal_cache( $derived_key, $value );
@@ -1027,7 +1027,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 			?>
 
             <p>
-                <strong>Redis Status:</strong> <?php echo $this->redis_status() ? 'Connected' : 'Not Connected'; ?><br/>
+                <strong>Redis Status:</strong> <?php echo $this->status() ? 'Connected' : 'Not Connected'; ?><br/>
                 <strong>Redis Client:</strong> <?php echo $this->redis_client; ?><br/>
                 <strong>Cache Hits:</strong> <?php echo $this->cache_hits; ?><br/>
                 <strong>Cache Misses:</strong> <?php echo $this->cache_misses; ?>
@@ -1153,7 +1153,7 @@ if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :
 		public function add_global_groups( $groups ) {
 			$groups = (array) $groups;
 
-			if ( $this->redis_status() ) {
+			if ( $this->status() ) {
 				$this->global_groups = array_unique( array_merge( $this->global_groups, $groups ) );
 			} else {
 				$this->ignored_groups = array_unique( array_merge( $this->ignored_groups, $groups ) );

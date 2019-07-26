@@ -116,6 +116,10 @@ class Cache {
 	public function purge_post_on_update( $new_status, $old_status, $post ) {
 		$post_type = get_post_type( $post );
 
+		if ( ! in_array( $post_type, $this->get_public_post_types() ) ) {
+			return false;
+		}
+
 		if ( in_array( $post_type, $this->get_post_types_excluded_from_purge() ) ) {
 			return false;
 		}
@@ -144,6 +148,10 @@ class Cache {
 	 */
 	public function purge_post_on_delete( $post_id ) {
 		$post_type = get_post_type( $post_id );
+
+		if ( ! in_array( $post_type, $this->get_public_post_types() ) ) {
+			return false;
+		}
 
 		if ( in_array( $post_type, $this->get_post_types_excluded_from_purge() ) ) {
 			return false;
@@ -368,6 +376,19 @@ class Cache {
 		}
 
 		return apply_filters( 'spinupwp_should_purge_post_status', true );
+	}
+
+	/**
+	 * Get public post types that should trigger a cache purge.
+	 *
+	 * @return array
+	 */
+	private function get_public_post_types() {
+		$post_types = get_post_types( [
+			'public' => true,
+		] );
+
+		return apply_filters( 'spinupwp_public_post_types', $post_types );
 	}
 
 	/**

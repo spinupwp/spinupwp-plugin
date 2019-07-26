@@ -191,9 +191,12 @@ class Cache {
 	 */
 	public function purge_post_by_comment( $comment_id ) {
 		$comment = get_comment( $comment_id );
-		$post    = get_post( $comment->comment_post_ID );
 
-		return $this->purge_post( $post );
+		if ( $comment && $comment->comment_post_ID ) {
+			$post = get_post( $comment->comment_post_ID );
+
+			return $this->purge_post( $post );
+		}
 	}
 
 	/**

@@ -197,6 +197,8 @@ class Cache {
 
 			return $this->purge_post( $post );
 		}
+
+		return false;
 	}
 
 	/**

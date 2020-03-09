@@ -2,7 +2,7 @@
 Contributors: deliciousbrains
 Tags: cache
 Requires at least: 4.7
-Tested up to: 5.2.2
+Tested up to: 5.4
 Requires PHP: 7.1
 Stable tag: 1.1.2
 License: GPLv2 or later

@@ -55,6 +55,7 @@ class Cache {
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
 		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );
+		add_action( 'updated_option', array( $this, 'purge_all_cache' ) );
 		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
 		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
 	}
@@ -250,6 +251,19 @@ class Cache {
 		$result = $this->delete( $this->cache_path, true );
 
 		do_action( 'spinupwp_site_purged', $result );
+
+		return $result;
+	}
+
+	/**
+	 * Purge object & page cache.
+	 * 
+	 * @return bool
+	 */
+	public function purge_all_cache() {
+		$result = $this->purge_object_cache() && $this->purge_page_cache();
+
+		do_action( 'spinupwp_all_purged', $result );
 
 		return $result;
 	}

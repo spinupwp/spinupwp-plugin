@@ -2,9 +2,9 @@
 Contributors: deliciousbrains
 Tags: cache
 Requires at least: 4.7
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 7.1
-Stable tag: 1.1.2
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,9 +81,13 @@ Create a new team account, invite a member of your team, and allow them to spin 
 = Features =
 
 * Page cache purging
+* Persisent object caching
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.2 (2020-08-17) =
+* Added support for WP 5.5 `wp_cache_get_multi()` function.
 
 = 1.1.2 (2019-07-26) =
 * Only purge the page cache when a public post type is updated.

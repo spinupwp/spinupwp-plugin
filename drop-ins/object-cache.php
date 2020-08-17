@@ -1371,13 +1371,13 @@ LUA;
         $start_time = microtime( true );
 
         try {
+            $remaining_ids = array_map( function ( $key ) use ( $derived_keys ) {
+                return $derived_keys[ $key ];
+            }, $remaining_keys );
+
             $results = array_combine(
                 $remaining_keys,
-                $this->redis->mget(
-                    array_map( function ( $key ) use ( $derived_keys ) {
-                        return $derived_keys[ $key ];
-                    }, $remaining_keys )
-                )
+                $this->redis->mget( $remaining_ids )
             );
         } catch ( Exception $exception ) {
             $this->handle_exception( $exception );
@@ -1391,15 +1391,14 @@ LUA;
         $this->cache_time += $execute_time;
 
         foreach ( $results as $key => $value ) {
-            $value = $this->maybe_unserialize($value);
-            $cache[ $key ] = $value;
-
-            if ( $value === false ) {
+            if ( $value === null || $value === false ) {
+                $cache[ $key ] = false;
                 $this->cache_misses++;
             } else {
-                $this->cache_hits++;
+                $cache[ $key ] = $this->maybe_unserialize( $value );
+                $this->add_to_internal_cache( $derived_keys[ $key ], $cache[ $key ] );
 
-                $this->add_to_internal_cache( $derived_keys[ $key ], $value );
+                $this->cache_hits++;
             }
         }
 

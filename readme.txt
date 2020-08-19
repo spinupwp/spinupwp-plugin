@@ -88,6 +88,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 
 = 1.2 (2020-08-17) =
 * Added support for WP 5.5 `wp_cache_get_multi()` function.
+* Changed Admin Bar menu title from "SpinupWP" to "Cache"
 
 = 1.1.2 (2019-07-26) =
 * Only purge the page cache when a public post type is updated.

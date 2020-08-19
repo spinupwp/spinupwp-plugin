@@ -32,7 +32,7 @@ class AdminBar {
 
 		$wp_admin_bar->add_node( array(
 			'id'    => 'spinupwp',
-			'title' => 'SpinupWP',
+			'title' => apply_filters( 'spinupwp_admin_bar_title', __( 'Cache' ) ),
 		) );
 
 		foreach ( $this->items as $item ) {

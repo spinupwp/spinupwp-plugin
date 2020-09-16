@@ -9,8 +9,9 @@ Author URI: https://deliciousbrains.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-// Based on Till Kruss Redis Object Cache:
-// https://github.com/tillkruss/redis-cache/
+Based on Till Krüss’ Redis Object Cache:
+ - https://wordpress.org/plugins/redis-cache/
+ - https://github.com/rhubarbgroup/redis-cache/
 */
 
 if ( ! defined( 'WP_REDIS_DISABLED' ) || ! WP_REDIS_DISABLED ) :

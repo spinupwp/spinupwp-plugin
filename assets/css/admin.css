@@ -1,0 +1,6 @@
+@media screen and (max-width: 782px) {
+	#wpadminbar #wp-admin-bar-spinupwp {
+		display: block;
+		position: static;
+	}
+}

@@ -10,10 +10,32 @@ class AdminBar {
 	private $items = array();
 
 	/**
+	 * @var string
+	 */
+	public $url;
+
+	/**
+	 * AdminBar constructor.
+	 *
+	 * @param string $url
+	 */
+	public function __construct( $url ) {
+		$this->url = $url;
+	}
+
+	/**
 	 * Init
 	 */
 	public function init() {
 		add_action( 'admin_bar_menu', array( $this, 'render' ), 100 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Enqueue admin scripts.
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_style( 'spinupwp-admin', $this->url . 'assets/css/admin.css', array(), '1.0' );
 	}
 
 	/**

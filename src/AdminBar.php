@@ -38,7 +38,7 @@ class AdminBar {
 		foreach ( $this->items as $item ) {
 			$wp_admin_bar->add_node( array(
 				'parent' => 'spinupwp',
-				'id'     => strtolower( str_replace( '', '-', $item['title'] ) ),
+				'id'     => strtolower( str_replace( ' ', '-', $item['title'] ) ),
 				'title'  => $item['title'],
 				'href'   => wp_nonce_url( add_query_arg( 'spinupwp_action', $item['action'], admin_url() ), $item['action'] ),
 			) );

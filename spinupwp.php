@@ -4,7 +4,7 @@ Plugin Name:  SpinupWP
 Plugin URI:   https://spinupwp.com
 Description:  SpinupWP helper plugin.
 Author:       Delicious Brains
-Version:      1.2
+Version:      1.3
 Network:      True
 Text Domain:  spinupwp
 Requires PHP: 7.1

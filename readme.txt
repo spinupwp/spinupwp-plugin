@@ -1,10 +1,10 @@
 === SpinupWP ===
 Contributors: deliciousbrains
-Tags: cache
+Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 7.1
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.3 (2021-01-06) =
+* Added compatibility with Elementor Website Builder.
+* Show the "Cache" Admin Bar menu item on mobile devices.
 
 = 1.2 (2020-08-17) =
 * Added support for WP 5.5 `wp_cache_get_multi()` function.

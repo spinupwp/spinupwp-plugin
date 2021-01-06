@@ -30,7 +30,7 @@ class Plugin {
 	 * Run the SpinupWP plugin.
 	 */
 	public function run() {
-		$admin_bar     = new AdminBar;
+		$admin_bar     = new AdminBar( $this->url );
 		$admin_notices = new AdminNotices( $this->url );
 		$cli           = new Cli;
 

@@ -37,9 +37,12 @@ class Plugin {
 		$cli->register_command( 'spinupwp', Commands::class );
 		$this->cache = new Cache( $admin_bar, $cli );
 
+		$compatibility = new Compatibility( $this->cache );
+
 		$this->cache->init();
 		$admin_bar->init();
 		$admin_notices->init();
+		$compatibility->init();
 
 		if ( getenv( 'SPINUPWP_SITE' ) ) {
 			register_activation_hook( $this->path, array( Plugin::class, 'install' ) );

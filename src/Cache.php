@@ -51,6 +51,8 @@ class Cache {
 			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
+		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
+		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
 		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
@@ -237,7 +239,7 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	private function purge_object_cache() {
+	public function purge_object_cache() {
 		return wp_cache_flush();
 	}
 

@@ -26,7 +26,7 @@ We support DigitalOcean, Linode, AWS, and any other provider. If your server has
 
 SpinupWP will install the latest stable versions of Nginx, PHP, MySQL/MariaDB, and Redis from the standard apt-get repos. No who-knows-what-they-did custom builds of packages. Disconnect from SpinupWP in the future and you can still keep your packages up-to-date with apt-get upgrade.
 
-**Automatic Software Updates**
+**Automatic Security Updates**
 
 SpinupWP will configure your server to install security updates as soon as they are available to reduce the likelihood a software vulnerability putting your server at risk.
 

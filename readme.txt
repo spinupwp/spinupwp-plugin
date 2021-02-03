@@ -28,7 +28,7 @@ SpinupWP will install the latest stable versions of Nginx, PHP, MySQL/MariaDB, a
 
 **Automatic Security Updates**
 
-SpinupWP will configure your server to install security updates as soon as they are available to reduce the likelihood a software vulnerability putting your server at risk.
+SpinupWP will configure your server to install security updates as soon as they are available to reduce the likelihood of a software vulnerability putting your server at risk.
 
 **Free SSL/TLS Certificates**
 
@@ -68,11 +68,11 @@ If you’re hosting a site for someone else, you can easily give them SFTP/SSH a
 
 **Professional Guidance & Best Practices**
 
-SpinupWP will actively point you in the right direction and offer suggestions for maintaining your server. And because it provides detailed feedback about the operations it runs on your server, you can learn what is happening with your server.New release of Ubuntu just came out, should I upgrade? We’ll add a notice to the app about that, why we don’t recommend upgrading your existing servers, and how you can spin up a new server with the new release of Ubuntu and migrate your sites to that server instead.Should I install Varnish to improve page caching performance? We’ve benchmarked Varnish and Nginx FastCGI Cache performed better. Varnish would add complexity too, so one less moving part is another reason.Much of the time SpinupWP will suggest things that you may not have even thought of. Email deliverability for example. SpinupWP will strongly encourage you to configure an email sending plugin for the best email deliverability.SpinupWP’s guidance is especially helpful for those new to managing a server, but can also help those who’ve been at it a while, providing transparency to our decisions.
+SpinupWP will actively point you in the right direction and offer suggestions for maintaining your server. And because it provides detailed feedback about the operations it runs on your server, you can learn what is happening with your server. New release of Ubuntu just came out, should I upgrade? We’ll add a notice to the app about that, why we don’t recommend upgrading your existing servers, and how you can spin up a new server with the new release of Ubuntu and migrate your sites to that server instead. Should I install Varnish to improve page caching performance? We’ve benchmarked Varnish and Nginx FastCGI Cache performed better. Varnish would add complexity too, so one less moving part is another reason. Much of the time SpinupWP will suggest things that you may not have even thought of. Email deliverability for example. SpinupWP will strongly encourage you to configure an email sending plugin for the best email deliverability. SpinupWP’s guidance is especially helpful for those new to managing a server, but can also help those who’ve been at it a while, providing transparency to our decisions.
 
 **Scheduled Backups of Site Files & Database**
 
-All server providers (DigitalOcean, Linode, etc) offer automated backups of your entire server for a fee. These services are great and we highly recommend having backups of your whole server.But what happens if some media or data was deleted by accident from your WordPress site? You’re not going to restore your entire server just to get that data back.That’s where site backups come in.Site backups are full backups of your site files (media, themes, and plugins) and database. They allow you to easily restore a single site or just some files or data from a single site.With SpinupWP’s site backups, you choose your preferred provider to stash your backups whether that’s Amazon S3, DigitalOcean Spaces, or Google Cloud Storage. You plug in your account details and SpinupWP will send your site backups there in an easy-to-see format.
+All server providers (DigitalOcean, Linode, etc) offer automated backups of your entire server for a fee. These services are great and we highly recommend having backups of your whole server. But what happens if some media or data was deleted by accident from your WordPress site? You’re not going to restore your entire server just to get that data back. That’s where site backups come in. Site backups are full backups of your site files (media, themes, and plugins) and database. They allow you to easily restore a single site or just some files or data from a single site. With SpinupWP’s site backups, you choose your preferred provider to stash your backups whether that’s Amazon S3, DigitalOcean Spaces, or Google Cloud Storage. You plug in your account details and SpinupWP will send your site backups there in an easy-to-see format.
 
 **Teamwork Makes the Dream Work**
 
@@ -81,7 +81,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 = Features =
 
 * Page cache purging
-* Persisent object caching
+* Persistent object caching
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==

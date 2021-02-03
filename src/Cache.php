@@ -39,15 +39,15 @@ class Cache {
 		$this->set_cache_path();
 
 		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
-			$this->admin_bar->add_item( 'Purge All Caches', 'purge-all' );
+			$this->admin_bar->add_item( __( 'Purge All Caches', 'spinupwp' ), 'purge-all' );
 		}
 
 		if ( $this->is_object_cache_enabled() ) {
-			$this->admin_bar->add_item( 'Purge Object Cache', 'purge-object' );
+			$this->admin_bar->add_item( __( 'Purge Object Cache', 'spinupwp' ), 'purge-object' );
 		}
 
 		if ( $this->is_page_cache_enabled() ) {
-			$this->admin_bar->add_item( 'Purge Page Cache', 'purge-page' );
+			$this->admin_bar->add_item( __( 'Purge Page Cache', 'spinupwp' ), 'purge-page' );
 			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 

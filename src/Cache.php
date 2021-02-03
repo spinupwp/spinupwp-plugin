@@ -221,7 +221,7 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	private function is_object_cache_enabled() {
+	public function is_object_cache_enabled() {
 		return wp_using_ext_object_cache();
 	}
 
@@ -230,7 +230,7 @@ class Cache {
 	 *
 	 * @return bool
 	 */
-	private function is_page_cache_enabled() {
+	public function is_page_cache_enabled() {
 		return defined( 'SPINUPWP_CACHE_PATH' ) || getenv( 'SPINUPWP_CACHE_PATH' );
 	}
 

@@ -86,6 +86,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 
 == Changelog ==
 
+= 1.4 (2021-09-28) =
+* Removed object-cache.php drop-in in favor of default from Redis Object Cache plugin.
+
 = 1.3 (2021-01-06) =
 * Added compatibility with Elementor Website Builder.
 * Show the "Cache" Admin Bar menu item on mobile devices.
@@ -102,7 +105,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Fix object-cache.php file deletion on Redis Object Cache plugin uninstall.
 
 = 1.1 (2019-07-09) =
-* `wp spinupwp status` and `wp spinupwp update-object-cache-dropin` WP-CLI commands added.
+* `wp spinupwp status` WP-CLI command added.
 * WP-CLI cache related commands moved to new `cache` subcommand, e.g. `wp spinupwp cache purge-site`.
 * Don't report "Your site is set to log errors to a potentially public file" issue in site health tool.
 * Automatically update object-cache.php drop-in when a new version is available.

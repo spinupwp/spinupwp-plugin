@@ -62,7 +62,6 @@ class AdminNotices {
 	public function show_notices() {
 		$this->show_mail_notice();
 		$this->show_redis_cache_disabled_notice();
-		$this->show_object_cache_dropin_updated_notice();
 	}
 
 	/**
@@ -90,35 +89,5 @@ class AdminNotices {
 		$msg   = __( 'The Redis Object Cache plugin has been deactivated and can be removed. The SpinupWP plugin now handles clearing the Redis object cache.', 'spinupwp' );
 		$nonce = wp_create_nonce( 'dismiss-notice' );
 		echo "<div class=\"spinupwp notice notice-success is-dismissible\" data-nonce=\"{$nonce}\" data-notice=\"redis_cache_disabled\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
-	}
-
-	/**
-	 * Show a notice when the object-cache.php drop-in has been updated.
-	 */
-	public function show_object_cache_dropin_updated_notice() {
-		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
-
-		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
-			$plugin_path = untrailingslashit( dirname( __DIR__ ) );
-
-			$dropin = get_plugin_data( $wpcontent_dir . '/object-cache.php' );
-			$plugin = get_plugin_data( $plugin_path . '/drop-ins/object-cache.php' );
-
-			if ( $dropin['PluginURI'] !== $plugin['PluginURI'] ) {
-				return;
-			}
-
-			if ( version_compare( $dropin['Version'], $plugin['Version'], '<' ) ) {
-				@unlink( $wpcontent_dir . '/object-cache.php' );
-
-				if ( @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' ) ) {
-					$msg = __( 'Object cache drop-in updated.', 'spinupwp' );
-					echo "<div class=\"spinupwp notice notice-success\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
-				} else {
-					$msg = __( 'Object cache drop-in could not be updated.', 'spinupwp' );
-					echo "<div class=\"spinupwp notice notice-error\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
-				}
-			}
-		}
 	}
 }

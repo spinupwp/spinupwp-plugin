@@ -79,14 +79,14 @@ class AdminNotices {
 	}
 
 	/**
-	 * Show a notice about Redis Object Cache plugin being disabled.
+	 * Show a notice about Redis Object Cache plugin being needed.
 	 */
 	public function show_redis_cache_disabled_notice() {
 		if ( ! current_user_can( 'manage_options' ) || ! get_site_option( 'spinupwp_redis_cache_disabled' ) || get_site_option( 'spinupwp_redis_cache_disabled_notice_dismissed' ) ) {
 			return;
 		}
 
-		$msg   = __( 'The Redis Object Cache plugin has been deactivated and can be removed. The SpinupWP plugin now handles clearing the Redis object cache.', 'spinupwp' );
+		$msg   = __( 'Please update to the latest version of the SpinupWP plugin, then install <a target="_blank" href="https://wordpress.org/plugins/redis-cache/">Redis Object Cache</a>. The Redis Object Cache plugin will now handle clearing the Redis object cache.', 'spinupwp' );
 		$nonce = wp_create_nonce( 'dismiss-notice' );
 		echo "<div class=\"spinupwp notice notice-success is-dismissible\" data-nonce=\"{$nonce}\" data-notice=\"redis_cache_disabled\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
 	}

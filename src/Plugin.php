@@ -100,8 +100,8 @@ class Plugin {
 	 * Perform actions on admin init.
 	 */
 	public function admin_init() {
-		if ( is_plugin_active( 'redis-cache/redis-cache.php' ) ) {
-			deactivate_plugins( 'redis-cache/redis-cache.php' );
+        $wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+		if (! is_plugin_active( 'redis-cache/redis-cache.php' ) || file_exists( $wpcontent_dir . '/object-cache.php' )) {
 			update_site_option( 'spinupwp_redis_cache_disabled', true );
 		}
 	}

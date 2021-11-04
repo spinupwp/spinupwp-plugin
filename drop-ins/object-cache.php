@@ -152,8 +152,8 @@ function wp_cache_incr( $key, $offset = 1, $group = '' ) {
 function wp_cache_init() {
     global $wp_object_cache;
 
-    if ( ! defined( 'WP_REDIS_PREFIX' ) && getenv( 'WP_REDIS_PREFIX' ) ) {
-        define( 'WP_REDIS_PREFIX', getenv( 'WP_REDIS_PREFIX' ) );
+    if ( ! defined( 'WP_REDIS_PREFIX' ) && getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        define( 'WP_REDIS_PREFIX', getenv( 'SPINUPWP_CACHE_KEY_SALT' ) );
     }
 
     if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) && getenv( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {
@@ -174,7 +174,6 @@ function wp_cache_init() {
         $fail_gracefully = ! defined( 'WP_REDIS_GRACEFUL' ) || WP_REDIS_GRACEFUL;
 
         // We need to override this WordPress global in order to inject our cache.
-        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
         $wp_object_cache = new WP_Object_Cache( $fail_gracefully );
     }
 }
@@ -805,7 +804,6 @@ class WP_Object_Cache {
             $clients = $is_cluster ? WP_REDIS_CLUSTER : WP_REDIS_SERVERS;
 
             foreach ( $clients as $index => $connection_string ) {
-                // phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url
                 $url_components = parse_url( $connection_string );
 
                 parse_str( $url_components['query'], $add_params );
@@ -1985,7 +1983,6 @@ LUA;
 
         $bytes = array_map(
             function ( $keys ) {
-                // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
                 return strlen( serialize( $keys ) );
             },
             $this->cache
@@ -2219,7 +2216,6 @@ LUA;
 
         // Don't attempt to unserialize data that wasn't serialized going in.
         if ( $this->is_serialized( $original ) ) {
-            // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
             $value = @unserialize( $original );
 
             return is_object( $value ) ? clone $value : $value;
@@ -2248,12 +2244,10 @@ LUA;
         }
 
         if ( is_array( $data ) || is_object( $data ) ) {
-            // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
             return serialize( $data );
         }
 
         if ( $this->is_serialized( $data, false ) ) {
-            // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
             return serialize( $data );
         }
 

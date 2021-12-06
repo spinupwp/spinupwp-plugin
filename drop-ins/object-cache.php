@@ -152,23 +152,11 @@ function wp_cache_incr( $key, $offset = 1, $group = '' ) {
 function wp_cache_init() {
     global $wp_object_cache;
 
-    if ( ! defined( 'WP_REDIS_PREFIX' ) && getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
-        define( 'WP_REDIS_PREFIX', getenv( 'SPINUPWP_CACHE_KEY_SALT' ) );
+    if ( ! defined( 'WP_REDIS_PREFIX' )) {
+        define( 'WP_REDIS_PREFIX', $this->get_cache_key_salt());
     }
 
-    if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) && getenv( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {
-        define( 'WP_REDIS_SELECTIVE_FLUSH', (bool) getenv( 'WP_REDIS_SELECTIVE_FLUSH' ) );
-    }
-
-    // Backwards compatibility: map `WP_CACHE_KEY_SALT` constant to `WP_REDIS_PREFIX`.
-    if ( defined( 'WP_CACHE_KEY_SALT' ) && ! defined( 'WP_REDIS_PREFIX' ) ) {
-        define( 'WP_REDIS_PREFIX', WP_CACHE_KEY_SALT );
-    }
-
-    // Set unique prefix for sites hosted on Cloudways
-    if ( ! defined( 'WP_REDIS_PREFIX' ) && isset( $_SERVER['cw_allowed_ip'] ) )  {
-        define( 'WP_REDIS_PREFIX', getenv( 'HTTP_X_APP_USER' ) );
-    }
+    define( 'WP_REDIS_SELECTIVE_FLUSH', true);
 
     if ( ! ( $wp_object_cache instanceof WP_Object_Cache ) ) {
         $fail_gracefully = ! defined( 'WP_REDIS_GRACEFUL' ) || WP_REDIS_GRACEFUL;
@@ -176,6 +164,26 @@ function wp_cache_init() {
         // We need to override this WordPress global in order to inject our cache.
         $wp_object_cache = new WP_Object_Cache( $fail_gracefully );
     }
+}
+
+/**
+ * Get the cache key salt.
+ *
+ * @return string|null
+ */
+private function get_cache_key_salt() {
+    if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return SPINUPWP_CACHE_KEY_SALT;
+    }
+    if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
+    }
+    if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
+        // @deprecated
+        return WP_CACHE_KEY_SALT;
+    }
+
+    return null;
 }
 
 /**

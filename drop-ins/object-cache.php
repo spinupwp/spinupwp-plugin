@@ -153,7 +153,7 @@ function wp_cache_init() {
     global $wp_object_cache;
 
     if ( ! defined( 'WP_REDIS_PREFIX' )) {
-        define( 'WP_REDIS_PREFIX', $this->get_cache_key_salt());
+        define( 'WP_REDIS_PREFIX', get_cache_key_salt());
     }
 
     define( 'WP_REDIS_SELECTIVE_FLUSH', true);
@@ -171,7 +171,7 @@ function wp_cache_init() {
  *
  * @return string|null
  */
-private function get_cache_key_salt() {
+function get_cache_key_salt() {
     if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
         return SPINUPWP_CACHE_KEY_SALT;
     }

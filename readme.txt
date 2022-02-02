@@ -4,7 +4,7 @@ Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 5.9
 Requires PHP: 7.1
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.4 (2022-02-02) =
+* PHP 8.1 compatibility fixes
 
 = 1.3 (2021-01-06) =
 * Added compatibility with Elementor Website Builder.

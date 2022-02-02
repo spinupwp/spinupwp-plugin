@@ -156,8 +156,6 @@ function wp_cache_init() {
         define( 'WP_REDIS_PREFIX', get_cache_key_salt());
     }
 
-    define( 'WP_REDIS_SELECTIVE_FLUSH', true);
-
     if ( ! ( $wp_object_cache instanceof WP_Object_Cache ) ) {
         $fail_gracefully = ! defined( 'WP_REDIS_GRACEFUL' ) || WP_REDIS_GRACEFUL;
 
@@ -1267,7 +1265,7 @@ class WP_Object_Cache {
 
         if ( $this->redis_status() ) {
             $salt = defined( 'WP_REDIS_PREFIX' ) ? trim( WP_REDIS_PREFIX ) : null;
-            $selective = defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ? WP_REDIS_SELECTIVE_FLUSH : null;
+            $selective = true; // @deprecated WP_REDIS_SELECTIVE_FLUSH
 
             $start_time = microtime( true );
 

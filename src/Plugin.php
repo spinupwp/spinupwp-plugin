@@ -52,6 +52,8 @@ class Plugin {
 			$site_health = new SiteHealth();
 			$site_health->init();
 		}
+
+		add_filter( 'spinupwp_should_use_object_cache_dropin', array( $this, 'should_use_object_cache_dropin' ) );
 	}
 
 	/**
@@ -94,6 +96,20 @@ class Plugin {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param bool $check
+	 *
+	 * @return bool
+	 */
+	public function should_use_object_cache_dropin( $check ) {
+		if ( defined( 'RedisCachePro\Version' ) ) {
+			// Don't use our object-cache.php drop-in if the site is using the Object Cache Pro plugin
+			return false;
+		}
+
+		return $check;
 	}
 
 	/**

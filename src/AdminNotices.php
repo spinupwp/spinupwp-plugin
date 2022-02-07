@@ -109,9 +109,9 @@ class AdminNotices {
 			}
 
 			if ( version_compare( $dropin['Version'], $plugin['Version'], '<' ) ) {
-				@unlink( $wpcontent_dir . '/object-cache.php' );
+				$result = Plugin::update_object_cache_dropin();
 
-				if ( @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' ) ) {
+				if ( $result ) {
 					$msg = __( 'Object cache drop-in updated.', 'spinupwp' );
 					echo "<div class=\"spinupwp notice notice-success\"><p><strong>SpinupWP</strong> — {$msg}</p></div>";
 				} else {

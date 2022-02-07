@@ -67,15 +67,29 @@ class Plugin {
 			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 
+		self::update_object_cache_dropin();
+	}
+
+	/**
+	 * Perform the update of the object-cache.php drop-in
+	 *
+	 * @return bool
+	 */
+	public static function update_object_cache_dropin() {
+		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+		$plugin_path   = untrailingslashit( dirname( dirname( __DIR__ ) ) );
+
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@unlink( $wpcontent_dir . '/object-cache.php' );
 		}
 
-		@copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
+		$result = @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
 
 		if ( function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
 		}
+
+		return $result;
 	}
 
 	/**

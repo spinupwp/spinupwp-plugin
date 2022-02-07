@@ -76,6 +76,10 @@ class Plugin {
 	 * @return bool
 	 */
 	public static function update_object_cache_dropin() {
+		if ( ! apply_filters( 'spinupwp_should_use_object_cache_dropin', true ) ) {
+			return false;
+		}
+
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 		$plugin_path   = untrailingslashit( dirname( dirname( __DIR__ ) ) );
 

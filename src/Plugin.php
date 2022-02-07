@@ -84,11 +84,21 @@ class Plugin {
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 
+		$existing_backed_up = false;
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
+			$existing_backed_up = @copy( $wpcontent_dir . '/object-cache.php', $wpcontent_dir . '/object-cache.php.bak' );
 			@unlink( $wpcontent_dir . '/object-cache.php' );
 		}
 
 		$result = @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
+
+		if ( $existing_backed_up ) {
+			if ( $result ) {
+				@unlink( $wpcontent_dir . '/object-cache.php.bak' );
+			} else {
+				@rename( $wpcontent_dir . '/object-cache.php.bak', $wpcontent_dir . '/object-cache.php' );
+			}
+		}
 
 		if ( $result && function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();

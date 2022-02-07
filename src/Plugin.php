@@ -85,7 +85,7 @@ class Plugin {
 
 		$result = @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
 
-		if ( function_exists( 'wp_cache_flush' ) ) {
+		if ( $result && function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
 		}
 

@@ -62,7 +62,6 @@ class Plugin {
 	public static function install() {
 		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
-		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 
 		if ( ! file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
 			wp_mkdir_p( $wpmu_dir );

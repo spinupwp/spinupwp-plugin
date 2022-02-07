@@ -82,7 +82,7 @@ class Plugin {
 		}
 
 		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
-		$plugin_path   = untrailingslashit( dirname( dirname( __DIR__ ) ) );
+		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
 			@unlink( $wpcontent_dir . '/object-cache.php' );

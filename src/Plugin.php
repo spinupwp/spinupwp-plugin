@@ -52,6 +52,8 @@ class Plugin {
 			$site_health = new SiteHealth();
 			$site_health->init();
 		}
+
+		add_filter( 'spinupwp_should_use_object_cache_dropin', array( $this, 'should_use_object_cache_dropin' ) );
 	}
 
 	/**
@@ -60,22 +62,63 @@ class Plugin {
 	public static function install() {
 		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
 		$wpmu_dir      = untrailingslashit( WPMU_PLUGIN_DIR );
-		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
 
 		if ( ! file_exists( $wpmu_dir . '/spinupwp-debug-log-path.php' ) ) {
 			wp_mkdir_p( $wpmu_dir );
 			@copy( $plugin_path . '/mu-plugins/spinupwp-debug-log-path.php', $wpmu_dir . '/spinupwp-debug-log-path.php' );
 		}
 
+		self::update_object_cache_dropin();
+	}
+
+	/**
+	 * Perform the update of the object-cache.php drop-in
+	 *
+	 * @return bool
+	 */
+	public static function update_object_cache_dropin() {
+		if ( ! apply_filters( 'spinupwp_should_use_object_cache_dropin', true ) ) {
+			return false;
+		}
+
+		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+		$plugin_path   = untrailingslashit( dirname( __DIR__ ) );
+
+		$existing_backed_up = false;
 		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
+			$existing_backed_up = @copy( $wpcontent_dir . '/object-cache.php', $wpcontent_dir . '/object-cache.php.bak' );
 			@unlink( $wpcontent_dir . '/object-cache.php' );
 		}
 
-		@copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
+		$result = @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' );
 
-		if ( function_exists( 'wp_cache_flush' ) ) {
+		if ( $existing_backed_up ) {
+			if ( $result ) {
+				@unlink( $wpcontent_dir . '/object-cache.php.bak' );
+			} else {
+				@rename( $wpcontent_dir . '/object-cache.php.bak', $wpcontent_dir . '/object-cache.php' );
+			}
+		}
+
+		if ( $result && function_exists( 'wp_cache_flush' ) ) {
 			wp_cache_flush();
 		}
+
+		return $result;
+	}
+
+	/**
+	 * @param bool $check
+	 *
+	 * @return bool
+	 */
+	public function should_use_object_cache_dropin( $check ) {
+		if ( defined( 'RedisCachePro\Version' ) ) {
+			// Don't use our object-cache.php drop-in if the site is using the Object Cache Pro plugin
+			return false;
+		}
+
+		return $check;
 	}
 
 	/**

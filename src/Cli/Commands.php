@@ -2,6 +2,7 @@
 
 namespace DeliciousBrains\SpinupWp\Cli;
 
+use DeliciousBrains\SpinupWp\Plugin;
 use WP_CLI;
 
 /**
@@ -24,22 +25,12 @@ class Commands {
 	 * @subcommand update-object-cache-dropin
 	 */
 	public function update_object_cache_dropin() {
-		$wpcontent_dir = untrailingslashit( WP_CONTENT_DIR );
+		$result = Plugin::update_object_cache_dropin();
 
-		if ( file_exists( $wpcontent_dir . '/object-cache.php' ) ) {
-			@unlink( $wpcontent_dir . '/object-cache.php' );
-		}
-
-		$plugin_path = untrailingslashit( dirname( dirname( __DIR__ ) ) );
-
-		if ( @copy( $plugin_path . '/drop-ins/object-cache.php', $wpcontent_dir . '/object-cache.php' ) ) {
+		if ( $result ) {
 			WP_CLI::success( __( 'Object cache drop-in updated.', 'spinupwp' ) );
 		} else {
 			WP_CLI::error( __( 'Object cache drop-in could not be updated.', 'spinupwp' ) );
-		}
-
-		if ( function_exists( 'wp_cache_flush' ) ) {
-			wp_cache_flush();
 		}
 	}
 

@@ -2102,7 +2102,7 @@ LUA;
             $group = 'default';
         }
 
-        $salt = defined( 'WP_REDIS_PREFIX' ) ? trim( WP_REDIS_PREFIX ) : '';
+        $salt = defined( 'WP_REDIS_PREFIX' ) && WP_REDIS_PREFIX ? trim( WP_REDIS_PREFIX ) : '';
         $prefix = $this->is_global_group( $group ) ? $this->global_prefix : $this->blog_prefix;
 
         $key = $this->sanitize_key_part( $key );

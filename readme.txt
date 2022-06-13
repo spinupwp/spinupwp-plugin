@@ -4,7 +4,7 @@ Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 6.0
 Requires PHP: 7.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.4.2 (2022-06-13) =
+* Plugin author updated
 
 = 1.4.1 (2022-02-09) =
 * Don't overwrite Object Cache Pro object-cache.php drop-in

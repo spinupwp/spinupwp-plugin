@@ -4,7 +4,7 @@ Plugin Name:  SpinupWP
 Plugin URI:   https://spinupwp.com
 Description:  SpinupWP helper plugin.
 Author:       SpinupWP
-Version:      1.4.1
+Version:      1.4.2
 Network:      True
 Text Domain:  spinupwp
 Requires PHP: 7.1

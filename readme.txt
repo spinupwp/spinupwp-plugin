@@ -1,5 +1,5 @@
 === SpinupWP ===
-Contributors: deliciousbrains
+Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 6.0

@@ -1,10 +1,10 @@
 {
-    "name": "deliciousbrains/spinupwp-plugin",
+    "name": "spinupwp/spinupwp-plugin",
     "type": "wordpress-plugin",
     "authors": [
         {
-            "name": "Delicious Brains",
-            "email": "nom@deliciousbrains.com"
+            "name": "SpinupWP",
+            "email": "sudo@spinupwp.com"
         }
     ],
     "require": {

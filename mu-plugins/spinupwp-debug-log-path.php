@@ -3,9 +3,9 @@
 Plugin Name: SpinupWP Debug Log Path
 Plugin URI: https://spinupwp.com
 Description: Set debug.log location for SpinupWP.
-Author: Delicious Brains
+Author: SpinupWP
 Version: 1.0
-Author URI: https://deliciousbrains.com/
+Author URI: https://spinupwp.com/
 */
 
 if ( getenv( 'SPINUPWP_LOG_PATH' ) && WP_DEBUG && WP_DEBUG_LOG ) {

@@ -37,7 +37,7 @@ PLUGINSLUG="spinupwp"
 CURRENTDIR=$(pwd)
 default_svnpath="/tmp/$PLUGINSLUG"
 default_svnurl="https://plugins.svn.wordpress.org/$PLUGINSLUG"
-default_svnuser="deliciousbrains"
+default_svnuser="spinupwp"
 default_plugindir="$CURRENTDIR"
 default_mainfile="$PLUGINSLUG.php"
 

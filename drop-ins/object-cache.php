@@ -3,7 +3,7 @@
 Plugin Name: SpinupWP Redis Object Cache Drop-In
 Plugin URI: http://wordpress.org/plugins/spinupwp/
 Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, HHVM, replication, clustering and WP-CLI.
-Version: 1.4.2
+Version: 1.5
 Author: SpinupWP
 Author URI: https://spinupwp.com/
 License: GPLv3

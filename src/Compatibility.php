@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp;
+namespace SpinupWp;
 
-use DeliciousBrains\SpinupWp\Compatibility\ElementorPlugin;
+use SpinupWp\Compatibility\ElementorPlugin;
 
 class Compatibility {
 	/**

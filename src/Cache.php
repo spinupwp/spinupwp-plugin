@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp;
+namespace SpinupWp;
 
-use DeliciousBrains\SpinupWp\Cli\CacheCommands;
+use SpinupWp\Cli\CacheCommands;
 use WP_Post;
 
 class Cache {

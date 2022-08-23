@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp;
+namespace SpinupWp;
 
 class AdminNotices {
 

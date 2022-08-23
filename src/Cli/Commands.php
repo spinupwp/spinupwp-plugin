@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp\Cli;
+namespace SpinupWp\Cli;
 
-use DeliciousBrains\SpinupWp\Plugin;
+use SpinupWp\Plugin;
 use WP_CLI;
 
 /**

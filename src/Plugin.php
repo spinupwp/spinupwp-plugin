@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp;
+namespace SpinupWp;
 
-use DeliciousBrains\SpinupWp\Cli\Commands;
+use SpinupWp\Cli\Commands;
 
 class Plugin {
 

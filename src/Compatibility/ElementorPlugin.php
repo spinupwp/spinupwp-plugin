@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp\Compatibility;
+namespace SpinupWp\Compatibility;
 
-use DeliciousBrains\SpinupWp\Cache;
+use SpinupWp\Cache;
 
 class ElementorPlugin {
 	/**

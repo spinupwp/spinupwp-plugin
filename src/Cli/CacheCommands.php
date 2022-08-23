@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\SpinupWp\Cli;
+namespace SpinupWp\Cli;
 
 use WP_CLI;
 

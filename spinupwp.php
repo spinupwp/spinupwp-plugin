@@ -34,15 +34,15 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 /**
  * The main SpinupWP function.
  *
- * @return \DeliciousBrains\SpinupWp\Plugin
+ * @return \SpinupWp\Plugin
  */
 function spinupwp()
 {
-    if ( isset( $GLOBALS['spinupwp'] ) && $GLOBALS['spinupwp'] instanceof \DeliciousBrains\SpinupWp\Plugin ) {
+    if ( isset( $GLOBALS['spinupwp'] ) && $GLOBALS['spinupwp'] instanceof \SpinupWp\Plugin ) {
         return $GLOBALS['spinupwp'];
     }
 
-    $GLOBALS['spinupwp'] = new \DeliciousBrains\SpinupWp\Plugin( __FILE__ );
+    $GLOBALS['spinupwp'] = new \SpinupWp\Plugin( __FILE__ );
     $GLOBALS['spinupwp']->run();
 
     return $GLOBALS['spinupwp'];

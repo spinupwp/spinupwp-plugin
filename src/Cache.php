@@ -59,6 +59,7 @@ class Cache {
 		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );
 		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
 		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
+		add_action( 'upgrader_process_complete', array( $this, 'purge_page_cache_on_shutdown' ) );
 	}
 
 
@@ -201,6 +202,13 @@ class Cache {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Purge the page cache on shutdown.
+	 */
+	public function purge_page_cache_on_shutdown() {
+		add_action( 'shutdown', array( $this, 'purge_page_cache' ) );
 	}
 
 	/**

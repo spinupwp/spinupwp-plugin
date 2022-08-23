@@ -165,7 +165,8 @@ Thumbs.db
 .github/*
 .git
 .gitattributes
-.gitignore" "$SVNPATH/trunk/"
+.gitignore
+composer.lock" "$SVNPATH/trunk/"
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix="$SVNPATH/trunk/"

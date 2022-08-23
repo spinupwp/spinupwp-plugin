@@ -1522,7 +1522,7 @@ class WP_Object_Cache {
         $this->cache = [];
 
         if ( $this->redis_status() ) {
-            $salt = defined( 'WP_REDIS_PREFIX' ) ? trim( WP_REDIS_PREFIX ) : null;
+            $salt = defined( 'WP_REDIS_PREFIX' ) && WP_REDIS_PREFIX ? trim( WP_REDIS_PREFIX ) : null;
             $selective = defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ? WP_REDIS_SELECTIVE_FLUSH : null;
 
             $start_time = microtime( true );
@@ -2363,7 +2363,7 @@ LUA;
             $group = 'default';
         }
 
-        $salt = defined( 'WP_REDIS_PREFIX' ) ? trim( WP_REDIS_PREFIX ) : '';
+        $salt = defined( 'WP_REDIS_PREFIX' ) && WP_REDIS_PREFIX ? trim( WP_REDIS_PREFIX ) : '';
 
         $prefix = $this->is_global_group( $group ) ? $this->global_prefix : $this->blog_prefix;
         $prefix = trim( $prefix, '_-:$' );

@@ -9,6 +9,7 @@ class SiteHealth {
 	 */
 	public function init() {
 		add_filter( 'site_status_tests', array( $this, 'filter_site_health_checks' ) );
+		add_filter( 'site_status_page_cache_supported_cache_headers', array( $this, 'filter_page_cache_headers' ) );
 	}
 
 	/**
@@ -76,5 +77,24 @@ class SiteHealth {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Filters the list of cache headers supported by core.
+	 *
+	 * @param array $cache_headers
+	 *
+	 * @return array
+	 */
+	public function filter_page_cache_headers( $cache_headers ) {
+		$cache_headers['fastcgi-cache'] = static function ( $header_value ) {
+			return in_array( strtolower( $header_value ), array(
+				'hit',
+				'miss',
+				'bypass',
+			), true );
+		};
+
+		return $cache_headers;
 	}
 }

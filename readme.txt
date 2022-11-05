@@ -2,9 +2,9 @@
 Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 6.0.1
+Tested up to: 6.1
 Requires PHP: 7.1
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.5.1 (2022-11-05) =
+* Ensure SpinupWP page caching is correctly detected in Site Health
 
 = 1.5 (2022-08-23) =
 * Purge the page cache on core, plugin, and theme update

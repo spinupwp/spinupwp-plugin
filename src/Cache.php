@@ -323,7 +323,7 @@ class Cache {
 	 * @return bool
 	 */
 	private function delete( $path, $recursive = false ) {
-		if ( file_exists( $path ) && is_writable( $path ) ) {
+		if ( null !== $path && file_exists( $path ) && is_writable( $path ) ) {
 			require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 			$context = $path;

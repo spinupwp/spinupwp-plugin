@@ -287,31 +287,61 @@ class Cache {
 	 * @return bool
 	 */
 	public function purge_url( $url ) {
-		$path   = $this->get_cache_path_for_url( $url );
-		$result = $this->delete( $path );
-
-		do_action( 'spinupwp_url_purged', $url, $result );
-
-		return $result;
+		$cache_paths = $this->get_cache_paths_for_url( $url );
+		
+		$all_deleted = true;
+		foreach ($cache_paths as $path) {
+			$deleted =  $this->delete( $path );
+			do_action( 'spinupwp_url_purged', $url, $deleted );
+			$all_deleted &= $deleted;
+		}
+		
+		return $all_deleted;
 	}
 
 	/**
-	 * Get's the cache file path for a given URL.
-	 *
+	 * Gets the cache file paths for a given URL.
+	 * 
 	 * Must be using the default Nginx cache options (levels=1:2)
-	 * and (fastcgi_cache_key "$scheme$request_method$host$request_uri").
 	 * https://www.digitalocean.com/community/tutorials/how-to-setup-fastcgi-caching-with-nginx-on-your-vps#purging-the-cache
 	 *
 	 * @param string $url
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function get_cache_path_for_url( $url ) {
-		$parsed_url = parse_url( trailingslashit( $url ) );
-		$cache_key  = md5( $parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path'] );
-		$cache_path = substr( $cache_key, - 1 ) . '/' . substr( $cache_key, - 3, 2 ) . '/' . $cache_key;
+	private function get_cache_paths_for_url( $url ) {
+		$cache_keys = $this->get_cache_keys_for_url( $url );
+		
+		$cache_paths = array();
+		foreach ($cache_keys as $key) {
+			$hashed_key = md5($key);
+			$path = substr( $hashed_key, - 1 ) . '/' . substr( $hashed_key, - 3, 2 ) . '/' . $hashed_key;
+			$cache_paths[] = trailingslashit( $this->cache_path ) . $path;
+		}
+		
+		return $cache_paths;
+	}
 
-		return trailingslashit( $this->cache_path ) . $cache_path;
+	/**
+	 * Gets the cache keys for a given URL.
+	 *
+	 * It defaults to a single key: (fastcgi_cache_key "$scheme$request_method$host$request_uri"),
+	 * but it can be modified with spinupwp_cache_key_components filter.
+	 * This must match the Nginx configuration.
+	 *
+	 * @param string $url
+	 *
+	 * @return array
+	 */
+	private function get_cache_keys_for_url( $url ) {
+		// Default cache key
+		$parsed_url = parse_url( trailingslashit( $url ) );
+		$cache_keys = array($parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path']);
+
+		// Allow the cache keys to be modified
+		$cache_keys = apply_filters('spinupwp_cache_keys_for_url', $cache_keys, $url);
+		
+		return $cache_keys;
 	}
 
 	/**

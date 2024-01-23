@@ -82,7 +82,10 @@ class Cache {
 		}
 
 		if ( 'purge-all' === $action ) {
-			$purge = $this->purge_object_cache() && $this->purge_page_cache();
+			$purge_object_cache = $this->purge_object_cache();
+			$purge_page_cache = $this->purge_page_cache();
+			
+			$purge = $purge_object_cache && $purge_page_cache;
 			$type  = 'all';
 		}
 

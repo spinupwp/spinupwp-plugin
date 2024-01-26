@@ -51,7 +51,7 @@ class Cache {
 			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
-		if ( $this->is_page_cache_enabled() ) {
+		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
 			$this->admin_bar->add_item( __( 'Purge this URL', 'spinupwp' ), 'purge-url' );
 		}
 

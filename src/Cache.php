@@ -51,8 +51,13 @@ class Cache {
 			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
+		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
+			$this->admin_bar->add_item( __( 'Purge this URL', 'spinupwp' ), 'purge-url' );
+		}
+
 		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
 		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
+		add_action( 'spinupwp_purge_url', array( $this, 'purge_url' ) );
 		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
@@ -73,7 +78,7 @@ class Cache {
 
 		$action = filter_input( INPUT_GET, 'spinupwp_action' );
 
-		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page' ) ) ) {
+		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page', 'purge-url' ) ) ) {
 			return;
 		}
 
@@ -97,6 +102,12 @@ class Cache {
 		if ( 'purge-page' === $action ) {
 			$purge = $this->purge_page_cache();
 			$type  = 'page';
+		}
+		
+		if ( 'purge-url' === $action ) {
+			$url = $_SERVER['HTTP_REFERER'];
+			$purge = $this->purge_url($url);
+			$type  = 'url';
 		}
 
 		$redirect_url = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : admin_url();

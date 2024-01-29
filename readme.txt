@@ -87,11 +87,11 @@ Create a new team account, invite a member of your team, and allow them to spin 
 == Changelog ==
 
 = 1.6 (2024-02-06) =
-* Add option to purge current URL.
-* Increase default timeout limits from 1 to 5 seconds.
-* Allow cache key customization.
-* Fix 'Clear All Cache' page cache functionality when Redis errors.
-* Fix "Deprecated: file_exists()" on PHP 8.1.
+* New: Add "Purge this URL" option to our Cache menu in the WordPress nav bar.
+* New: Cache key customization. /props quimcastella
+* Improvement: Increase default cache purge timeout limit from 1 to 5 seconds.
+* Improvement: PHP 8.1 compatibility. /props afragen
+* Bug Fix: Page cache not cleared when clearing object cache fails.
 
 = 1.5.1 (2022-11-05) =
 * Ensure SpinupWP page caching is correctly detected in Site Health

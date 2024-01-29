@@ -2,9 +2,9 @@
 Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.4
 Requires PHP: 7.1
-Stable tag: 1.5.1
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,13 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.6 (2024-02-06) =
+* Add option to purge current URL.
+* Increase default timeout limits from 1 to 5 seconds.
+* Allow cache key customization.
+* Fix 'Clear All Cache' page cache functionality when Redis errors.
+* Fix "Deprecated: file_exists()" on PHP 8.1.
 
 = 1.5.1 (2022-11-05) =
 * Ensure SpinupWP page caching is correctly detected in Site Health

@@ -51,8 +51,13 @@ class Cache {
 			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
+		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
+			$this->admin_bar->add_item( __( 'Purge this URL', 'spinupwp' ), 'purge-url' );
+		}
+
 		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
 		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
+		add_action( 'spinupwp_purge_url', array( $this, 'purge_url' ) );
 		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
 		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
@@ -73,7 +78,7 @@ class Cache {
 
 		$action = filter_input( INPUT_GET, 'spinupwp_action' );
 
-		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page' ) ) ) {
+		if ( ! $action || ! in_array( $action, array( 'purge-all', 'purge-object', 'purge-page', 'purge-url' ) ) ) {
 			return;
 		}
 
@@ -82,7 +87,10 @@ class Cache {
 		}
 
 		if ( 'purge-all' === $action ) {
-			$purge = $this->purge_object_cache() && $this->purge_page_cache();
+			$purge_object_cache = $this->purge_object_cache();
+			$purge_page_cache = $this->purge_page_cache();
+			
+			$purge = $purge_object_cache && $purge_page_cache;
 			$type  = 'all';
 		}
 
@@ -94,6 +102,12 @@ class Cache {
 		if ( 'purge-page' === $action ) {
 			$purge = $this->purge_page_cache();
 			$type  = 'page';
+		}
+		
+		if ( 'purge-url' === $action ) {
+			$url = $_SERVER['HTTP_REFERER'];
+			$purge = $this->purge_url($url);
+			$type  = 'url';
 		}
 
 		$redirect_url = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : admin_url();
@@ -287,31 +301,61 @@ class Cache {
 	 * @return bool
 	 */
 	public function purge_url( $url ) {
-		$path   = $this->get_cache_path_for_url( $url );
-		$result = $this->delete( $path );
-
-		do_action( 'spinupwp_url_purged', $url, $result );
-
-		return $result;
+		$cache_paths = $this->get_cache_paths_for_url( $url );
+		
+		$all_deleted = true;
+		foreach ($cache_paths as $path) {
+			$deleted =  $this->delete( $path );
+			do_action( 'spinupwp_url_purged', $url, $deleted );
+			$all_deleted &= $deleted;
+		}
+		
+		return $all_deleted;
 	}
 
 	/**
-	 * Get's the cache file path for a given URL.
-	 *
+	 * Gets the cache file paths for a given URL.
+	 * 
 	 * Must be using the default Nginx cache options (levels=1:2)
-	 * and (fastcgi_cache_key "$scheme$request_method$host$request_uri").
 	 * https://www.digitalocean.com/community/tutorials/how-to-setup-fastcgi-caching-with-nginx-on-your-vps#purging-the-cache
 	 *
 	 * @param string $url
 	 *
-	 * @return string
+	 * @return array
 	 */
-	private function get_cache_path_for_url( $url ) {
-		$parsed_url = parse_url( trailingslashit( $url ) );
-		$cache_key  = md5( $parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path'] );
-		$cache_path = substr( $cache_key, - 1 ) . '/' . substr( $cache_key, - 3, 2 ) . '/' . $cache_key;
+	private function get_cache_paths_for_url( $url ) {
+		$cache_keys = $this->get_cache_keys_for_url( $url );
+		
+		$cache_paths = array();
+		foreach ($cache_keys as $key) {
+			$hashed_key = md5($key);
+			$path = substr( $hashed_key, - 1 ) . '/' . substr( $hashed_key, - 3, 2 ) . '/' . $hashed_key;
+			$cache_paths[] = trailingslashit( $this->cache_path ) . $path;
+		}
+		
+		return $cache_paths;
+	}
 
-		return trailingslashit( $this->cache_path ) . $cache_path;
+	/**
+	 * Gets the cache keys for a given URL.
+	 *
+	 * It defaults to a single key: (fastcgi_cache_key "$scheme$request_method$host$request_uri"),
+	 * but it can be modified with spinupwp_cache_key_components filter.
+	 * This must match the Nginx configuration.
+	 *
+	 * @param string $url
+	 *
+	 * @return array
+	 */
+	private function get_cache_keys_for_url( $url ) {
+		// Default cache key
+		$parsed_url = parse_url( trailingslashit( $url ) );
+		$cache_keys = array($parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path']);
+
+		// Allow the cache keys to be modified
+		$cache_keys = apply_filters('spinupwp_cache_keys_for_url', $cache_keys, $url);
+		
+		return $cache_keys;
 	}
 
 	/**
@@ -323,7 +367,7 @@ class Cache {
 	 * @return bool
 	 */
 	private function delete( $path, $recursive = false ) {
-		if ( file_exists( $path ) && is_writable( $path ) ) {
+		if ( null !== $path && file_exists( $path ) && is_writable( $path ) ) {
 			require_once( ABSPATH . '/wp-admin/includes/file.php' );
 
 			$context = $path;

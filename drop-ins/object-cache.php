@@ -233,11 +233,11 @@ function wp_cache_init() {
     global $wp_object_cache;
 
     if ( ! defined( 'WP_REDIS_PREFIX' ) ) {
-			define( 'WP_REDIS_PREFIX', get_cache_key_salt());
+        define( 'WP_REDIS_PREFIX', get_cache_key_salt());
     }
 
     if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {
-			define( 'WP_REDIS_SELECTIVE_FLUSH', true );
+        define( 'WP_REDIS_SELECTIVE_FLUSH', true );
     }
 
     if ( ! ( $wp_object_cache instanceof WP_Object_Cache ) ) {
@@ -254,18 +254,18 @@ function wp_cache_init() {
  * @return string|null
  */
 function get_cache_key_salt() {
-	if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
-			return SPINUPWP_CACHE_KEY_SALT;
-	}
-	if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
-			return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
-	}
-	if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
-			// @deprecated
-			return WP_CACHE_KEY_SALT;
-	}
+    if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return SPINUPWP_CACHE_KEY_SALT;
+    }
+    if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
+    }
+    if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
+        // @deprecated
+        return WP_CACHE_KEY_SALT;
+    }
 
-	return null;
+    return null;
 }
 
 /**

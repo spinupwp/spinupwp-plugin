@@ -2,9 +2,9 @@
 Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.4
 Requires PHP: 7.1
-Stable tag: 1.5.1
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,13 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.6 (2024-01-31) =
+* New: Add "Purge this URL" option to our Cache menu in the WordPress nav bar.
+* New: Cache key customization. /props quimcastella
+* Improvement: Increase default cache purge timeout limit from 1 to 5 seconds.
+* Improvement: PHP 8.1 compatibility. /props afragen
+* Bug Fix: Page cache not cleared when clearing object cache fails.
 
 = 1.5.1 (2022-11-05) =
 * Ensure SpinupWP page caching is correctly detected in Site Health

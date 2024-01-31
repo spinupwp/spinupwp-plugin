@@ -86,7 +86,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 
 == Changelog ==
 
-= 1.6 (2024-02-06) =
+= 1.6 (2024-01-31) =
 * New: Add "Purge this URL" option to our Cache menu in the WordPress nav bar.
 * New: Cache key customization. /props quimcastella
 * Improvement: Increase default cache purge timeout limit from 1 to 5 seconds.

@@ -233,7 +233,7 @@ function wp_cache_init() {
     global $wp_object_cache;
 
     if ( ! defined( 'WP_REDIS_PREFIX' ) ) {
-			define( 'WP_REDIS_PREFIX', get_cache_key_salt());
+        define( 'WP_REDIS_PREFIX', get_cache_key_salt());
     }
 
     if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {

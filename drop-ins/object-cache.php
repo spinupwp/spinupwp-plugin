@@ -254,18 +254,18 @@ function wp_cache_init() {
  * @return string|null
  */
 function get_cache_key_salt() {
-	if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
-			return SPINUPWP_CACHE_KEY_SALT;
-	}
-	if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
-			return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
-	}
-	if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
-			// @deprecated
-			return WP_CACHE_KEY_SALT;
-	}
+    if ( defined( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return SPINUPWP_CACHE_KEY_SALT;
+    }
+    if ( getenv( 'SPINUPWP_CACHE_KEY_SALT' ) ) {
+        return getenv( 'SPINUPWP_CACHE_KEY_SALT' );
+    }
+    if ( defined( 'WP_CACHE_KEY_SALT' ) ) {
+        // @deprecated
+        return WP_CACHE_KEY_SALT;
+    }
 
-	return null;
+    return null;
 }
 
 /**

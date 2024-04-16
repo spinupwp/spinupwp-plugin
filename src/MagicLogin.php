@@ -31,24 +31,22 @@ class MagicLogin {
 
 	/**
 	 * Handle magic login request.
-	 *
-	 * @throws Exception
 	 */
 	public function handle_request() {
 		$secret = $this->get_login_secret();
 
 		if ( ! $this->has_valid_signature( $secret ) ) {
-			throw new Exception( 'Signature invalid' );
+			$this->error('Invalid Signature', 'Your login link is not valid. Please try again.');
 		}
 
 		if ( $this->has_exipred() ) {
-			throw new Exception( 'Signature expired' );
+			$this->error('Link Expired', 'Your login link has expired. Please try again.');
 		}
 
 		$user = $this->retrieve_user();
 
 		if ( ! $user ) {
-			throw new Exception( 'Invalid user' );
+			$this->error('User Not Found', 'No such user with that login exists.');
 		}
 
 		wp_set_auth_cookie( $user->ID );
@@ -147,5 +145,12 @@ class MagicLogin {
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Display error and die.
+	 */
+	protected function error($title, $body) {
+		wp_die( "<h1>{$title}</h1>\n<p>{$body}</p>" );
 	}
 }

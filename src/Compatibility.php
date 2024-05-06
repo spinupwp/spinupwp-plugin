@@ -16,7 +16,7 @@ class Compatibility {
 	 */
 	protected $compatibilityClasses = array(
 		ElementorPlugin::class,
-        CloudflarePlugin::class,
+		CloudflarePlugin::class,
 	);
 
 	/**

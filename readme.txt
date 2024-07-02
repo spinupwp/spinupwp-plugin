@@ -4,7 +4,7 @@ Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 6.5
 Requires PHP: 7.1
-Stable tag: 1.6
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.7 (2024-06-02) =
+* New: Support for Magic Login (Log into the WP Admin with one click from the SpinupWP dashboard)
 
 = 1.6 (2024-01-31) =
 * New: Add "Purge this URL" option to our Cache menu in the WordPress nav bar.

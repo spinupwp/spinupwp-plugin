@@ -87,7 +87,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 == Changelog ==
 
 = 1.7 (2024-06-02) =
-* New: Add Magic Logic support from the SpinupWP dashboard
+* New: Support for Magic Login (Log into the WP Admin with one click from the SpinupWP dashboard)
 
 = 1.6 (2024-01-31) =
 * New: Add "Purge this URL" option to our Cache menu in the WordPress nav bar.

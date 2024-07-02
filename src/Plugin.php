@@ -49,8 +49,8 @@ class Plugin {
 			register_uninstall_hook( $this->path, array( Plugin::class, 'uninstall' ) );
 			add_action( 'admin_init', array( $this, 'admin_init' ) );
 
-			$site_health = new SiteHealth();
-			$site_health->init();
+			( new MagicLogin() )->init();
+			( new SiteHealth() )->init();
 		}
 
 		add_filter( 'spinupwp_should_use_object_cache_dropin', array( $this, 'should_use_object_cache_dropin' ) );

@@ -108,7 +108,7 @@ class MagicLogin {
 		$query_signature = array_pop( $parameters );
 
 		$query     = http_build_query( $parameters );
-		$url       = site_url() . "?{$query}";
+		$url       = home_url() . "?{$query}";
 		$signature = hash_hmac( 'sha256', $url, $secret );
 
 		return hash_equals( $signature, $query_signature );

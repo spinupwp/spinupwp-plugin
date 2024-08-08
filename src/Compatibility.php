@@ -3,6 +3,7 @@
 namespace SpinupWp;
 
 use SpinupWp\Compatibility\ElementorPlugin;
+use SpinupWp\Compatibility\CloudflarePlugin;
 
 class Compatibility {
 	/**
@@ -15,6 +16,7 @@ class Compatibility {
 	 */
 	protected $compatibilityClasses = array(
 		ElementorPlugin::class,
+		CloudflarePlugin::class,
 	);
 
 	/**

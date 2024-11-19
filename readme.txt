@@ -2,7 +2,7 @@
 Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 6.5
+Tested up to: 6.7
 Requires PHP: 7.1
 Stable tag: 1.7.1
 License: GPLv2 or later

@@ -23,11 +23,11 @@ Requires WP:  4.7
 */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
@@ -38,11 +38,11 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
  */
 function spinupwp()
 {
-    if ( isset( $GLOBALS['spinupwp'] ) && $GLOBALS['spinupwp'] instanceof \SpinupWp\Plugin ) {
+    if (isset($GLOBALS['spinupwp']) && $GLOBALS['spinupwp'] instanceof \SpinupWp\Plugin) {
         return $GLOBALS['spinupwp'];
     }
 
-    $GLOBALS['spinupwp'] = new \SpinupWp\Plugin( __FILE__ );
+    $GLOBALS['spinupwp'] = new \SpinupWp\Plugin(__FILE__);
     $GLOBALS['spinupwp']->run();
 
     return $GLOBALS['spinupwp'];

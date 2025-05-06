@@ -24,6 +24,10 @@ class CacheCommands {
 	 * @subcommand purge-site
 	 */
 	public function purge_site() {
+		if ( ! spinupwp()->cache->is_page_cache_enabled() ) {
+			WP_CLI::error( __( 'The page cache is not enabled.', 'spinupwp' ) );
+		}
+
 		if ( spinupwp()->cache->purge_page_cache() ) {
 			WP_CLI::success( __( 'The page cache was purged.', 'spinupwp' ) );
 		} else {
@@ -46,6 +50,10 @@ class CacheCommands {
 	 * @subcommand purge-post
 	 */
 	public function purge_post( $args ) {
+		if ( ! spinupwp()->cache->is_page_cache_enabled() ) {
+			WP_CLI::error( __( 'The page cache is not enabled.', 'spinupwp' ) );
+		}
+
 		$post = get_post( $args[0] );
 
 		if ( ! $post ) {
@@ -76,6 +84,10 @@ class CacheCommands {
 	 * @subcommand purge-url
 	 */
 	public function purge_url( $args ) {
+		if ( ! spinupwp()->cache->is_page_cache_enabled() ) {
+			WP_CLI::error( __( 'The page cache is not enabled.', 'spinupwp' ) );
+		}
+
 		if ( spinupwp()->cache->purge_url( $args[0] ) ) {
 			WP_CLI::success( __( 'URL purged from the page cache.', 'spinupwp' ) );
 		} else {

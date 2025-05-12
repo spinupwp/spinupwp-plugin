@@ -356,9 +356,12 @@ class Cache {
 	 * @return array
 	 */
 	private function get_cache_keys_for_url( $url ) {
-		// Default cache key
-		$parsed_url = parse_url( trailingslashit( $url ) );
-		$cache_keys = array( $parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path'] );
+		$parsed_url = parse_url( $url );
+
+		$cache_keys = array(
+			$parsed_url['scheme'] . 'GET' . $parsed_url['host'] . trailingslashit( $parsed_url['path'] ),
+			$parsed_url['scheme'] . 'GET' . $parsed_url['host'] . untrailingslashit( $parsed_url['path'] ),
+		);
 
 		// Allow the cache keys to be modified
 		$cache_keys = apply_filters( 'spinupwp_cache_keys_for_url', $cache_keys, $url );

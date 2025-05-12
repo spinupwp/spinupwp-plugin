@@ -38,6 +38,25 @@ class Cache {
 	public function init() {
 		$this->set_cache_path();
 
+		add_action( 'init', array( $this, 'register_admin_bar_menu_items' ) );
+		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
+		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
+		add_action( 'spinupwp_purge_url', array( $this, 'purge_url' ) );
+		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
+		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
+		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
+		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );
+		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
+		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
+		add_action( 'upgrader_process_complete', array( $this, 'purge_page_cache_on_shutdown' ) );
+	}
+
+	/**
+	 * Register cache purge menu items in the admin bar.
+	 *
+	 * @return void
+	 */
+	public function register_admin_bar_menu_items() {
 		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
 			$this->admin_bar->add_item( __( 'Purge All Caches', 'spinupwp' ), 'purge-all' );
 		}
@@ -54,17 +73,6 @@ class Cache {
 		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
 			$this->admin_bar->add_item( __( 'Purge this URL', 'spinupwp' ), 'purge-url' );
 		}
-
-		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
-		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
-		add_action( 'spinupwp_purge_url', array( $this, 'purge_url' ) );
-		add_action( 'admin_init', array( $this, 'handle_manual_purge_action' ) );
-		add_action( 'transition_post_status', array( $this, 'purge_post_on_update' ), 10, 3 );
-		add_action( 'delete_post', array( $this, 'purge_post_on_delete' ), 10, 1 );
-		add_action( 'switch_theme', array( $this, 'purge_page_cache' ) );
-		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
-		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
-		add_action( 'upgrader_process_complete', array( $this, 'purge_page_cache_on_shutdown' ) );
 	}
 
 

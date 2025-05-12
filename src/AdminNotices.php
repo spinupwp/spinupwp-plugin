@@ -51,7 +51,11 @@ class AdminNotices {
 			wp_die( - 1, 403 );
 		}
 
-		$notice = filter_var( $_POST['notice'], FILTER_SANITIZE_STRING );
+		$notice = isset( $_POST['notice'] ) ? sanitize_text_field( $_POST['notice'] ) : '';
+
+		if ( empty( $notice ) ) {
+			wp_die( - 1, 400 );
+		}
 
 		update_site_option( "spinupwp_{$notice}_notice_dismissed", true );
 	}

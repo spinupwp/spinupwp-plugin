@@ -38,8 +38,6 @@ class Cache {
 	public function init() {
 		$this->set_cache_path();
 
-		$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
-
 		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
 			$this->admin_bar->add_item( __( 'Purge All Caches', 'spinupwp' ), 'purge-all' );
 		}
@@ -50,6 +48,7 @@ class Cache {
 
 		if ( $this->is_page_cache_enabled() ) {
 			$this->admin_bar->add_item( __( 'Purge Page Cache', 'spinupwp' ), 'purge-page' );
+			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
 		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
@@ -66,6 +65,30 @@ class Cache {
 		add_action( 'comment_post', array( $this, 'purge_post_on_comment' ), 10, 2 );
 		add_action( 'wp_set_comment_status', array( $this, 'purge_post_by_comment' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'purge_page_cache_on_shutdown' ) );
+	}
+
+	/**
+	 * Register cache purge menu items in the admin bar.
+	 *
+	 * @return void
+	 */
+	public function register_admin_bar_menu_items() {
+		if ( $this->is_object_cache_enabled() && $this->is_page_cache_enabled() ) {
+			$this->admin_bar->add_item( __( 'Purge All Caches', 'spinupwp' ), 'purge-all' );
+		}
+
+		if ( $this->is_object_cache_enabled() ) {
+			$this->admin_bar->add_item( __( 'Purge Object Cache', 'spinupwp' ), 'purge-object' );
+		}
+
+		if ( $this->is_page_cache_enabled() ) {
+			$this->admin_bar->add_item( __( 'Purge Page Cache', 'spinupwp' ), 'purge-page' );
+			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
+		}
+
+		if ( $this->is_page_cache_enabled() && ! is_admin() ) {
+			$this->admin_bar->add_item( __( 'Purge this URL', 'spinupwp' ), 'purge-url' );
+		}
 	}
 
 
@@ -349,9 +372,12 @@ class Cache {
 	 * @return array
 	 */
 	private function get_cache_keys_for_url( $url ) {
-		// Default cache key
-		$parsed_url = parse_url( trailingslashit( $url ) );
-		$cache_keys = array( $parsed_url['scheme'] . 'GET' . $parsed_url['host'] . $parsed_url['path'] );
+		$parsed_url = parse_url( $url );
+
+		$cache_keys = array(
+			$parsed_url['scheme'] . 'GET' . $parsed_url['host'] . trailingslashit( $parsed_url['path'] ),
+			$parsed_url['scheme'] . 'GET' . $parsed_url['host'] . untrailingslashit( $parsed_url['path'] ),
+		);
 
 		// Allow the cache keys to be modified
 		$cache_keys = apply_filters( 'spinupwp_cache_keys_for_url', $cache_keys, $url );

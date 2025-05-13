@@ -69,7 +69,6 @@ class Cache {
 
 		if ( $this->is_page_cache_enabled() ) {
 			$this->admin_bar->add_item( __( 'Purge Page Cache', 'spinupwp' ), 'purge-page' );
-			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
 		if ( $this->is_page_cache_enabled() && ! is_admin() ) {

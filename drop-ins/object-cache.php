@@ -633,7 +633,7 @@ class WP_Object_Cache {
             'scheme' => 'tcp',
             'host' => '127.0.0.1',
             'port' => 6379,
-            'database' => 0,
+            'database' => getenv('SPINUPWP_CACHE_DB') ?? 0,
             'timeout' => 5,
             'read_timeout' => 5,
             'retry_interval' => null,
@@ -651,6 +651,11 @@ class WP_Object_Cache {
             'read_timeout',
             'retry_interval',
         ];
+
+
+        if ( getenv( 'SPINUPWP_CACHE_USERNAME' ) && getenv( 'SPINUPWP_CACHE_PASSWORD' ) ) {
+            $parameters['password'] = [getenv( 'SPINUPWP_CACHE_USERNAME' ), getenv( 'SPINUPWP_CACHE_PASSWORD' )];
+        }
 
         foreach ( $settings as $setting ) {
             $constant = sprintf( 'WP_REDIS_%s', strtoupper( $setting ) );
@@ -735,7 +740,9 @@ class WP_Object_Cache {
             call_user_func_array( [ $this->redis, 'connect' ], array_values( $args ) );
 
             if ( isset( $parameters['password'] ) ) {
+
                 $args['password'] = $parameters['password'];
+
                 $this->redis->auth( $parameters['password'] );
             }
 

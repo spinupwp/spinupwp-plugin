@@ -38,6 +38,8 @@ class Cache {
 	public function init() {
 		$this->set_cache_path();
 
+		$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
+
 		add_action( 'init', array( $this, 'register_admin_bar_menu_items' ) );
 		add_action( 'spinupwp_purge_object_cache', array( $this, 'purge_object_cache' ) );
 		add_action( 'spinupwp_purge_page_cache', array( $this, 'purge_page_cache' ) );
@@ -67,7 +69,6 @@ class Cache {
 
 		if ( $this->is_page_cache_enabled() ) {
 			$this->admin_bar->add_item( __( 'Purge Page Cache', 'spinupwp' ), 'purge-page' );
-			$this->cli->register_command( 'spinupwp cache', CacheCommands::class );
 		}
 
 		if ( $this->is_page_cache_enabled() && ! is_admin() ) {

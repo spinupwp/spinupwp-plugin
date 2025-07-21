@@ -4,7 +4,7 @@ Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 6.8
 Requires PHP: 7.1
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+
+= 1.9.0 (2025-07-25) =
+* Rename SPINUPWP_CACHE_* variables to SPINUPWP_REDIS_* to clarify Redis usage
+* Do not set WP_REDIS_SELECTIVE_FLUSH to true by default
 
 = 1.8.0 (2025-05-13) =
 * New: Support for Redis ACL and separate Redis databases

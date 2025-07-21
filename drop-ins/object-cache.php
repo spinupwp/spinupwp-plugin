@@ -236,10 +236,6 @@ function wp_cache_init() {
         define( 'WP_REDIS_PREFIX', get_cache_key_salt());
     }
 
-    if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {
-        define( 'WP_REDIS_SELECTIVE_FLUSH', true );
-    }
-
     if ( ! ( $wp_object_cache instanceof WP_Object_Cache ) ) {
         $fail_gracefully = defined( 'WP_REDIS_GRACEFUL' ) && WP_REDIS_GRACEFUL;
 
@@ -633,7 +629,7 @@ class WP_Object_Cache {
             'scheme' => 'tcp',
             'host' => '127.0.0.1',
             'port' => 6379,
-            'database' => getenv('SPINUPWP_CACHE_DB') ?? 0,
+            'database' => getenv('SPINUPWP_REDIS_DB') ?? 0,
             'timeout' => 5,
             'read_timeout' => 5,
             'retry_interval' => null,
@@ -653,8 +649,8 @@ class WP_Object_Cache {
         ];
 
 
-        if ( getenv( 'SPINUPWP_CACHE_USERNAME' ) && getenv( 'SPINUPWP_CACHE_PASSWORD' ) ) {
-            $parameters['password'] = [getenv( 'SPINUPWP_CACHE_USERNAME' ), getenv( 'SPINUPWP_CACHE_PASSWORD' )];
+        if ( getenv( 'SPINUPWP_REDIS_USERNAME' ) && getenv( 'SPINUPWP_REDIS_PASSWORD' ) ) {
+            $parameters['password'] = [getenv( 'SPINUPWP_REDIS_USERNAME' ), getenv( 'SPINUPWP_REDIS_PASSWORD' )];
         }
 
         foreach ( $settings as $setting ) {

@@ -111,6 +111,15 @@ class MagicLogin {
 		$url       = home_url() . "?{$query}";
 		$signature = hash_hmac( 'sha256', $url, $secret );
 
+		$subdomain = getenv( 'SPINUPWP_SUBDOMAIN' );
+		if ( $subdomain ) {
+			$subdomain_url = "https://{$subdomain}" . "?{$query}";
+			$subdomain_signature = hash_hmac( 'sha256', $subdomain_url, $secret );
+			if ( hash_equals( $subdomain_signature, $query_signature ) ) {
+				return true;
+			}
+		}
+
 		return hash_equals( $signature, $query_signature );
 	}
 

@@ -3,7 +3,7 @@
 Plugin Name: SpinupWP Redis Object Cache Drop-In
 Plugin URI: http://wordpress.org/plugins/spinupwp/
 Description: A persistent object cache backend powered by Redis. Supports Predis, PhpRedis, HHVM, replication, clustering and WP-CLI.
-Version: 1.8.0
+Version: 1.9.0
 Author: SpinupWP
 Author URI: https://spinupwp.com/
 License: GPLv3
@@ -234,10 +234,6 @@ function wp_cache_init() {
 
     if ( ! defined( 'WP_REDIS_PREFIX' ) ) {
         define( 'WP_REDIS_PREFIX', get_cache_key_salt());
-    }
-
-    if ( ! defined( 'WP_REDIS_SELECTIVE_FLUSH' ) ) {
-        define( 'WP_REDIS_SELECTIVE_FLUSH', true );
     }
 
     if ( ! ( $wp_object_cache instanceof WP_Object_Cache ) ) {
@@ -633,7 +629,7 @@ class WP_Object_Cache {
             'scheme' => 'tcp',
             'host' => '127.0.0.1',
             'port' => 6379,
-            'database' => getenv('SPINUPWP_CACHE_DB') ?? 0,
+            'database' => (int) getenv('SPINUPWP_REDIS_DB') ?? 0,
             'timeout' => 5,
             'read_timeout' => 5,
             'retry_interval' => null,
@@ -652,9 +648,8 @@ class WP_Object_Cache {
             'retry_interval',
         ];
 
-
-        if ( getenv( 'SPINUPWP_CACHE_USERNAME' ) && getenv( 'SPINUPWP_CACHE_PASSWORD' ) ) {
-            $parameters['password'] = [getenv( 'SPINUPWP_CACHE_USERNAME' ), getenv( 'SPINUPWP_CACHE_PASSWORD' )];
+        if ( getenv( 'SPINUPWP_REDIS_USERNAME' ) && getenv( 'SPINUPWP_REDIS_PASSWORD' ) ) {
+            $parameters['password'] = [getenv( 'SPINUPWP_REDIS_USERNAME' ), getenv( 'SPINUPWP_REDIS_PASSWORD' )];
         }
 
         foreach ( $settings as $setting ) {
@@ -740,9 +735,7 @@ class WP_Object_Cache {
             call_user_func_array( [ $this->redis, 'connect' ], array_values( $args ) );
 
             if ( isset( $parameters['password'] ) ) {
-
                 $args['password'] = $parameters['password'];
-
                 $this->redis->auth( $parameters['password'] );
             }
 

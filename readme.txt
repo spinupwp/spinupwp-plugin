@@ -87,7 +87,7 @@ Create a new team account, invite a member of your team, and allow them to spin 
 == Changelog ==
 = 1.9.0 (2025-08-22) =
 * Change: Use SPINUPWP_REDIS_* variables instead of SPINUPWP_CACHE_*
-* Bug Fix: Prevent WP_REDIS_SELECTIVE_FLUSH from being set to true to ensure entire cache flush
+* Change: No longer enabling WP_REDIS_SELECTIVE_FLUSH by default as it can result in timeouts when flushing the cache.
 
 = 1.8.0 (2025-05-13) =
 * New: Support for Redis ACL and separate Redis databases

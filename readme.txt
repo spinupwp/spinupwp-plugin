@@ -2,9 +2,9 @@
 Contributors: spinupwp
 Tags: cache, caching, performance
 Requires at least: 4.7
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.1
-Stable tag: 1.7.1
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,16 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+= 1.9.0 (2025-08-22) =
+* Change: Use SPINUPWP_REDIS_* variables instead of SPINUPWP_CACHE_*
+* Change: No longer enabling WP_REDIS_SELECTIVE_FLUSH by default as it can result in timeouts when flushing the cache.
+
+= 1.8.0 (2025-05-13) =
+* New: Support for Redis ACL and separate Redis databases
+* Improvement: Register cache command when page cache disabled
+* Bug Fix: Purge URLs with and without trailing slash
+* Bug Fix: Replace for FILTER_SANITIZE_STRING which is now deprecated
+* Bug Fix: Fix "load_text_domain" notice
 
 = 1.7.1 (2024-06-03) =
 * Bug Fix: Magic Login not working when WordPress installed in a subdirectory.

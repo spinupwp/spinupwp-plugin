@@ -4,7 +4,7 @@ Tags: cache, caching, performance
 Requires at least: 4.7
 Tested up to: 6.9
 Requires PHP: 7.1
-Stable tag: 1.9.0
+Stable tag: 1.9.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Create a new team account, invite a member of your team, and allow them to spin 
 * Ensures debug.log files aren’t saved in a publicly-accessible location
 
 == Changelog ==
+= 1.9.1 (2026-01-07) =
+* Improvement: Add support for SpinupWP subdomains
+
 = 1.9.0 (2025-10-01) =
 * Change: Use SPINUPWP_REDIS_* variables instead of SPINUPWP_CACHE_*
 * Change: No longer enabling WP_REDIS_SELECTIVE_FLUSH by default as it can result in timeouts when flushing the cache. Flushing the object cache will now flush it for all sites on a server.

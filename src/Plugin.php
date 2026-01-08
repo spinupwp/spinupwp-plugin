@@ -51,6 +51,7 @@ class Plugin {
 
 			( new MagicLogin() )->init();
 			( new SiteHealth() )->init();
+			( new SubdomainUrlRewriter() )->init();
 		}
 
 		add_filter( 'spinupwp_should_use_object_cache_dropin', array( $this, 'should_use_object_cache_dropin' ) );

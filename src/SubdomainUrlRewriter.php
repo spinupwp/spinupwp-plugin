@@ -26,6 +26,10 @@ class SubdomainUrlRewriter {
 			return;
 		}
 
+		if ( is_multisite() && defined( 'SUBDOMAIN_INSTALL' ) && SUBDOMAIN_INSTALL ) {
+			define( 'COOKIE_DOMAIN', '.' . $this->subdomain );
+		}
+
 		$this->site_url = home_url();
 		$this->register_hooks();
 	}
@@ -36,8 +40,8 @@ class SubdomainUrlRewriter {
 	 * @return bool
 	 */
 	private function is_subdomain_request() {
-		return isset( $_SERVER['HTTP_HOST'] )
-			&& $_SERVER['HTTP_HOST'] === $this->subdomain;
+		return isset( $_SERVER['SERVER_NAME'] )
+			&& $_SERVER['SERVER_NAME'] === $this->subdomain;
 	}
 
 	/**
